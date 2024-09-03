@@ -241,7 +241,7 @@ const Page = () => {
           <label className="block mb-4 font-regular text-xl text-white">
             Select the Events:
           </label>
-          <div className="sm:flex flex-col items-center gap-2 lg:grid lg:grid-cols-3 justify-center">
+          <div className="sm:flex flex-col  gap-2 lg:grid lg:grid-cols-3 justify-center">
             {events.map((item, i) => (
               <label
                 className=" text-white flex gap-x-3  w-[90%] md:w-auto"
@@ -309,16 +309,11 @@ const Page = () => {
           </button>
         </div>
       </form>
+      <div className="h-[2px] bg-gray-200"></div>
       {/* {showSuccessSnackbar && <Modal body={'User Registered'}/>} */}
     </div>
   );
 };
-
-function SnackBar(text) {
-  return (
-    <div className="fixed w-svw h-[60px] bottom-0 left-0 bg-red-500"></div>
-  );
-}
 
 export default Page;
 

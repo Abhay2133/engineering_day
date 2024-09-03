@@ -65,7 +65,7 @@ export default function Page({ params }) {
     `The "Innovate India Model making Event" invites participants to showcase their creativity and technical prowess by constructing models or prototypes aligned with the theme of Digital India. This event encourages innovators to develop tangible representations of their ideas that contribute to the vision of a digitally empowered society. Participants can focus on areas such as smart cities, e-governance, digital infrastructure, or tech-driven education. The event fosters collaboration, as teams brainstorm and build projects that demonstrate how technology can solve real-world problems. The best models will be evaluated on creativity, functionality, and their potential impact on advancing Digital India.
     `,
     `‘Character Clash’ is an electrifying cosplay event where fans bring their favorite characters from anime, movies, video games, and comics to life. Participants, known as cosplayers, compete in a dynamic showdown, showcasing their creativity and craftsmanship through intricate costumes and performances. The event features intense cosplay contests, workshops, and interactive panels with industry experts. Attendees can explore a bustling marketplace filled with exclusive merchandise, artwork, and cosplay gear. Character Clash is more than a competition—it's a celebration of fandoms, where enthusiasts connect, share their passions, and immerse themselves in a vibrant, inclusive community.`,
-    `Unleash your coding genius! 'Crack Code' is a thrilling competition where participants solve complex coding challenges and puzzles to showcase their skills. With a timer ticking, coders will battle to crack the codes, debug, and optimize their solutions. From algorithms to data structures, participants will demonstrate their mastery of programming languages and problem-solving prowess. Join us for a high-energy event that pushes coding limits. Who will crack the code and emerge victorious?
+    `Unleash your coding genius! 'Crack N Code' is a thrilling competition where participants solve complex coding challenges and puzzles to showcase their skills. With a timer ticking, coders will battle to crack the codes, debug, and optimize their solutions. From algorithms to data structures, participants will demonstrate their mastery of programming languages and problem-solving prowess. Join us for a high-energy event that pushes coding limits. Who will crack the code and emerge victorious?
     `,
     `‘Anyday Anime’ is a creative platform where anime fans can bring their original ideas to life. It’s a hub for aspiring animators, writers, and artists to collaborate and develop unique anime concepts, from character design to storytelling. The platform offers tools, tutorials, and community support, enabling creators to share their work, receive feedback, and connect with like-minded enthusiasts. Whether you're a seasoned creator or just starting out, Anyday Anime provides the space and resources to turn your anime visions into reality, making it the perfect destination for anime creativity, any day.`,
     `Cooking without fire refers to the preparation of food without using any direct heat sources like gas stoves, ovens, or open flames.
@@ -524,7 +524,7 @@ export default function Page({ params }) {
     ["Aryan Singh Negi", 9557229620],
     ["Shivam Kumar", 8825251672],
     ["Chahat Chauhan", 7248778119],
-    ["Hasini Adimulam & Shreya Gupta", 9577161555],
+    ["Hasini Adimulam & Shreya Gupta", "9577161555 & 7505054765"],
     ["Ambar Kumar", 9577161555],
     ["Shreya Gupta", 7505054765], // Duplicate name
   ];
@@ -584,22 +584,22 @@ export default function Page({ params }) {
     "Ground floor UIT",
   ];
   const title = [
-    "Canvas on Faces",
-    "BGMI Badshah",
-    "Digital India",
-    "Engineer's Got Talent",
-    "HTML Combat",
-    "Pirates",
-    "UU Picasso",
-    "Engineer's Stride",
-    "Mr. & Ms. UU",
-    "Head Scratch",
-    "Life of an Engineer",
-    "Innovate India",
-    "Character Clash",
-    "Crack N Code",
-    "Anyday Anime",
-    "Cook Without Fire",
+    ["Face Painting","Canvas on Faces"],
+    ["E-Sports Event","BGMI Badshah"],
+    ["Robo Race","Digital India"],
+    ["Engineer's Got Talent", "Talent Hunt"],
+    ["Website making competition","HTML Combat"],
+    ["Boat Race","Pirates"],
+    ["Painting","UU Picasso"],
+    ["Engineers' Day Fun Run" ,"Engineers’ Stride"],
+    ["Modelling","Fashion Show"],
+    ["Technical Quiz Competition","Head Scratch"],
+    ["Video Creation","Life of an Engineer"],
+    ["Model Presentation","Innovate India"],
+    ["Cosplay","Character Clash"],
+    ["CODING WAR","Crack N Code"],
+    ["Anime creation","Anyday Anime"],
+    ["Cook Without Fire","Cooking Competition"],
   ];
 
   return (

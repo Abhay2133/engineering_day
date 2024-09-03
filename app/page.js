@@ -10,7 +10,7 @@ export default function Home() {
     backgroundSize: "cover", // Ensures the image covers the container
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    height: "80vh", // Adjust as needed
+    height: "100vh", // Adjust as needed
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
@@ -24,7 +24,7 @@ export default function Home() {
   };
   const cardcontent = [
     {
-      title: "Engineer's Stride",
+      title: "Engineers' Stride",
       src: "./engstride.jfif",
       href: "/event/engineerstride",
     },
@@ -45,7 +45,7 @@ export default function Home() {
       href: "/event/bgmi-badshah",
     },
     { title: "Anyday Anime", src: "anime.jfif", href: "/event/anyday-anime" },
-    { title: "Mr. & Ms. UU", src: "uu.jfif", href: "/event/mr-ms-uu" },
+    { title: "Fashion Show ", src: "fashion-show.jpg", href: "/event/mr-ms-uu" },
     {
       title: "Innovate India",
       src: "innovateindia.jfif",
@@ -74,7 +74,7 @@ export default function Home() {
       href: "/event/canvas-on-faces",
     },
     {
-      title: "Engineer's Got Talent",
+      title: "Engineers' Got Talent",
       src: "talent.jfif",
       href: "/event/engineers-got-talent",
     },
@@ -95,56 +95,58 @@ export default function Home() {
     },
     {
       ques: "What events are happening this year?",
-      ans: "Fun run, Code War, Web War, and more!",
+      ans: "Fun run, Code War, Web War, and many more!",
     },
-    {
-      ques: "Can I bring my friends?",
-      ans: "Absolutely! The more, the merrier!",
-    },
+    // {
+    //   ques: "Can I bring my friends?",
+    //   ans: "Absolutely! The more, the merrier!",
+    // },
   ];
   const para = `Welcome to the forefront of Engineering Innovation at Uttaranchal Institute of Technology (UIT), Uttaranchal University, Dehradun.
         Dear Students, Faculties and Guests,
-        In today's ever-evolving technological realm, engineering plays a pivotal role in driving transformative changes across the globe. As the Dean of the Uttaranchal Institute of Technology (UIT) at Uttaranchal University Dehradun, I am excited to outline our vision and dedication to advancing technologies that will shape our future.
+        In today's ever-evolving technological realm, engineering plays a pivotal role in driving transformative changes across the globe. As the Director of the Uttaranchal Institute of Technology (UIT) at Uttaranchal University Dehradun, I am excited to outline our vision and dedication to advancing technologies that will shape our future.`;
+  const para_info = `
         Prof. (Dr.) Sumit Chaudhary
         Director, Uttaranchal Institute of Technology`;
 
   const eventref = useRef();
   return (
     <>
-    <div
-      className="flex flex-col items-center justify-center gap-5 relative"
-      style={backgroundImageStyle}
-    >
-      <div className="flex justify-between p-4 w-full">
-        <img
-          src="./uit logo.png"
-          className="md:w-[8vw] w-[30vw] absolute top-4 left-2"
-          alt="logo"
-        />
-        <img
-          src="./UU-New-Logo.png"
-          className="md:w-[15vw] w-[50vw] bg-white p-3 rounded-xl absolute top-5 right-2"
-          alt="logo"
-        />
-      </div>
-      <div className="font-bold text-white font-sans text-5xl md:text-8xl">
-        {" "}
-        Engineer&apos;s Day{" "}
-      </div>
-      <div className=" text-white font-serif md:text-4xl">
-        Unleash Your Inner Genius and Joint the Fun!
-      </div>
-      <button
-        className="border-white border-2 font-bold text-xl py-2 px-3 bg-transparent text-white rounded-3xl"
-        onClick={() => {
-          eventref.current?.scrollIntoView({
-            behavior: "smooth",
-          });
-        }}
+      <div
+        className="flex flex-col items-center justify-center gap-5 relative h-dvh"
+        style={backgroundImageStyle}
       >
-        Explore the events
-      </button>
-    </div>
+        <div className="flex justify-between p-4 w-full">
+          <img
+            src="./UU-New-Logo.png"
+            className="md:w-[15vw] w-[50vw] bg-white p-3 rounded-xl absolute top-5 left-2"
+            alt="logo"
+          />
+
+          <img
+            src="./uit logo.png"
+            className="md:w-[8vw] w-[30vw] bg-white p-3 rounded-xl absolute top-4 right-2"
+            alt="logo"
+          />
+        </div>
+        <div className="font-bold text-white font-sans text-5xl md:text-8xl">
+          {" "}
+          Engineers&apos; Day{" "}
+        </div>
+        <div className=" text-white font-serif md:text-4xl">
+          Unleash Your Inner Genius and Join the Fun!
+        </div>
+        <button
+          className="border-white border-2 font-bold text-xl py-2 px-10 bg-transparent text-white rounded-3xl hover:bg-white hover:text-black"
+          onClick={() => {
+            eventref.current?.scrollIntoView({
+              behavior: "smooth",
+            });
+          }}
+        >
+          Explore the events
+        </button>
+      </div>
 
       {/* ----------  DETAILS ------------ */}
 
@@ -153,49 +155,75 @@ export default function Home() {
         style={{ backgroundColor: "#f0f0f6" }}
       >
         <div className="flex flex-col gap-5 ">
-          {" "}
           {para.split("\n").map((item, ind) => (
             <div
-              className="md:w-[60vw]
-     sm:w-[40vw] px-12 md:text-xl font-bold"
+              className="md:w-[60vw] sm:w-[40vw] px-12 md:text-xl "
               key={ind}
             >
               {item}
             </div>
-          ))}{" "}
+          ))}
+          {para_info.split("\n").map((item, ind) => (
+            <div
+              className="md:w-[60vw] sm:w-[40vw] px-12 md:text-xl font-bold"
+              key={ind}
+            >
+              {item}
+            </div>
+          ))}
         </div>
-        <div className="p-12">
+        <div className=" mb-5 lg:p-12">
           <img
-            className="md:w-[30vw] sm:w-[80vw] w-[75vw] h-[40vh] border-black border-2 rounded-full bg-blue-200 md:h-[63vh]"
+            className="md:w-[30vw] sm:w-[80vw] w-[75vw] h-[40vh] border-[#eee] shadow-xl border-2 rounded-3xl bg-blue-200 md:h-[63vh]"
             src="./deansir.png"
             alt="picture"
           />
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center py-10">
-        <div className="font-bold text-center text-5xl my-5 md:text-7xl font-sans">
+
+      {/* ---------- Who are we ---------- */}
+
+      <div className="flex flex-col justify-center py-10">
+        <div className="font-bold text-center  my-3 text-5xl font-sans">
           Who We Are
         </div>
         <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-3">
           {/* <br /> */}
           <div className="flex-2 mx-5 flex flex-col" style={{ flex: 2 }}>
-            {who_are_we.split("\n").map((item) => {
-              return <p className="text-lg lg:px-10">{item}</p>;
-            })}
+            {/* {who_are_we.split("\n").map((item) => {
+            return <p className="text-lg text-justify lg:px-10 px-5">{item}</p>;
+            })} */}
+            <p className="text-lg text-justify lg:px-10 px-5">
+              Welcome to <b>ENGINEERS&apos; DAY MAHOTSAVA 2024</b> , the ultimate
+              celebration of engineering brilliance! We are the masterminds
+              behind the most electrifying Engineers&apos; Day event, where
+              creativity meets competition in a whirlwind of excitement.
+              <br />
+              Our mission? To showcase the incredible talents of engineers while
+              having a blast!
+              <br />
+              Join us as we transform ordinary days into extraordinary
+              experiences. Get ready to laugh, learn, and unleash your inner
+              engineer!
+            </p>
+            ;
           </div>
           <div className="flex justify-center flex-1">
             <img src={"/circle.png"} alt="circle.img" />
           </div>
         </div>
       </div>
+
+      {/* ---------- Events ---------- */}
       <div style={{ backgroundColor: "#416165" }} className=" py-10">
+        {/* Don't miss */}
         <div
           style={{ backgroundColor: "#D0CDD7" }}
-          className=" p-14 rounded-2xl w-[80%] mx-auto flex gap-12 flex-col items-center justify-center"
+          className=" p-14 rounded-2xl w-[80%] mx-auto flex gap-8 flex-col items-center justify-center"
         >
-          <div className="font-bold lg:text-7xl text-3xl ">
-            {" "}
-            Don&apos;t Miss Out on the Fun!
+          <div className="font-bold text-3xl md:text-4xl">
+            {/* Don&apos;t Miss Out on the Fun! */}
+            Don&apos;t miss out on all the Fun !
           </div>
           <div className="font-semibold font-sans text-2xl lg:4xl">
             Click the below images for registration.
@@ -203,19 +231,22 @@ export default function Home() {
         </div>
         <div
           ref={eventref}
-          className="text-center font-semibold  text-6xl mt-28 text-white"
+          className="text-center font-semibold mb-3  text-6xl mt-20  text-white"
         >
           Epic Events
         </div>
-        <div className="flex p-5 lg:p-10 flex-wrap gap-10 justify-center">
+        {/* Events Cards */}
+        <div className="flex p-5 lg:p-10 flex-wrap gap-5 justify-center ">
           {cardcontent.map((item) => {
             return (
-              <Link key={item.href} href={item.href}>
+              <Link key={item.href} href={item.href} className="px-1 block">
                 <Card title={item.title} key={item.title} src={item.src} />;
               </Link>
             );
           })}
         </div>
+
+        {/* ----- FAQ ----- */}
         <div className="text-center mb-10 font-serif pt-9 font-bold text-5xl text-white">
           FAQS
         </div>
@@ -252,12 +283,12 @@ export default function Home() {
       {/* ------- Follow US ------- */}
       <div className="bg-blue-200">
         <div className="flex p-7 items-center gap-7 flex-col lg:flex-row">
-          <div className="flex flex-col gap-8 items-center w-[50vw]">
-            <div className="text-center font-bold text-6xl">
+          <div className="flex flex-col gap-8 items-center lg:w-[50vw]">
+            <div className="text-center font-bold text-4xl lg:text-6xl">
               Follow Us Online
             </div>
             <div className="font-serif text-xl">
-              Be connected with us on instagram for updates.
+            Be connected with us on <Link target="_blank" className="font-semibold font-mono text-blue-900 rounded-tr rounded-tl border-b-blue-950 border border-transparent hover:bg-[rgba(255,255,255,0.6)] transition-all " href={'https://www.instagram.com/engineersdaymahotsava2024'}>Instagram</Link> for updates.
             </div>
           </div>
           <div>
@@ -270,13 +301,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="text-center font-semibold text-2xl p-5 bg-black text-white">
-        &copy;2024 Engineers Day. All rights reserved.
-      </div>
     </>
   );
 }
 
-const who_are_we = `Welcome to ENGINEER'S DAY MAHOTSAVA2024 , the ultimate celebration of engineering brilliance! We are the masterminds behind the most electrifying Engineer's Day event, where creativity meets competition in a whirlwind of excitement.
-Our mission? To showcase the incredible talents of engineers while having a blast!
-Join us as we transform ordinary days into extraordinary experiences. Get ready to laugh, learn, and unleash your inner engineer!`;
