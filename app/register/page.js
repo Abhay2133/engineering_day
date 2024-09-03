@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const Page = () => {
   const [selectedEvents, setSelectedEvents] = useState([]);
-  const [formData, setFormData] = useState({ UniversityRollNo:"",EmailAddress:"", FirstName:"", LastName:"", Branch:"", Department:"", Year:"", PhoneNumber:"", SelectedEvents:"" });
+  const [formData, setFormData] = useState({ UniversityRollNo:"",EmailAddress:"", FirstName:"", LastName:"", Branch:"", Department:"", Year:"1st", PhoneNumber:"", SelectedEvents:"" });
   // const [formData, setFormData] = useState({
   //   UniversityRollNo: "1234",
   //   EmailAddress: "a@b.c",
@@ -24,6 +24,7 @@ const Page = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setInfoMode("uploading");
     try {
       const response = await fetch("/api/registration", {
@@ -31,7 +32,7 @@ const Page = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData, Year:parseInt(formData.Year)}),
       });
 
       const result = await response.json();
