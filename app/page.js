@@ -240,7 +240,7 @@ export default function Home() {
           {cardcontent.map((item) => {
             return (
               <Link key={item.href} href={item.href} className="px-1 block">
-                <Card title={item.title} key={item.title} src={item.src} />;
+                <Card title={item.title} key={item.title} src={item.src} />
               </Link>
             );
           })}
