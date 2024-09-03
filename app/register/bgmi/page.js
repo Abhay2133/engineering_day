@@ -6,7 +6,7 @@ export default function BGMI() {
   const [formData, setFormData] = useState({});
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log( formData)
+    console.log(formData);
   };
 
   const handleInput = (e) => {
@@ -21,18 +21,60 @@ export default function BGMI() {
         className="bg-blur w-[95%] mx-auto md:w-[600px] flex flex-col bg-[rgba(255,255,255,0.1)] px-10 rounded-3xl"
       >
         <h1 className="text-center text-4xl py-10">BGMI Registration Form</h1>
+        {/* Team Name - Leader */}
         <div className="flex flex-col md:flex-row gap-x-5">
-          <Input label={"Team Name"} name={"team-name"} onChange={handleInput} value={formData['team-name']} className={"flex-1"} />
-          <Input label={"Player 1"} name={"player-1"} className={"flex-1"} onChange={handleInput} value={formData['player-1']}  />
+          <Input
+            label={"Team Name"}
+            name={"team-name"}
+            onChange={handleInput}
+            value={formData["team-name"]}
+            className={"flex-1"}
+          />
+          <Input
+            label={"Team Leader"}
+            name={"team-leader"}
+            className={"flex-1"}
+            onChange={handleInput}
+            value={formData["team-leader"]}
+          />
         </div>
+        {/* Player 2 - player 3 */}
         <div className="flex flex-col md:flex-row gap-x-5">
-          <Input label={"Player 2"} name={"player-2"} className={"flex-1"} onChange={handleInput} value={formData['player-2']}  />
-          <Input label={"Player 3"} name={"player-3"} className={"flex-1"} onChange={handleInput} value={formData['player-3']}  />
+          <Input
+            label={"Player 2"}
+            name={"player-2"}
+            className={"flex-1"}
+            onChange={handleInput}
+            value={formData["player-2"]}
+          />
+          <Input
+            label={"Player 3"}
+            name={"player-3"}
+            className={"flex-1"}
+            onChange={handleInput}
+            value={formData["player-3"]}
+          />
         </div>
+        {/* Year - Semester */}
         <div className="flex flex-col md:flex-row gap-x-5">
-          <Input label={"Year"} name={"year"} className={"flex-1"} type="number" onChange={handleInput} value={formData['year']}  />
-          <Input label={"Semester"} name={"semester"} className={"flex-1"} type="number" onChange={handleInput} value={formData['semester']} />
+          <Input
+            label={"Year"}
+            name={"year"}
+            className={"flex-1"}
+            type="number"
+            onChange={handleInput}
+            value={formData["year"]}
+          />
+          <Input
+            label={"Semester"}
+            name={"semester"}
+            className={"flex-1"}
+            type="number"
+            onChange={handleInput}
+            value={formData["semester"]}
+          />
         </div>
+        {/* Gender - Email */}
         <div className="flex flex-col md:flex-row gap-x-5">
           <Select
             label={"Gender"}
@@ -46,12 +88,26 @@ export default function BGMI() {
             name={"email"}
             className={"flex-1"}
             type="email"
-            onChange={handleInput} value={formData['email']} 
+            onChange={handleInput}
+            value={formData["email"]}
           />
         </div>
-
+        <div className="flex flex-col md:flex-row gap-x-5">
+          <Select
+            options={["UIT", "USCS", "Other"]}
+            label={"Department"}
+            name={"department"}
+            onChange={handleInput}
+            value={formData["department"]}
+            className="flex-1"
+          />
+          <div className="flex-1"></div>
+        </div>
+        {/* SUbmit button */}
         <div className="mb-4 flex ">
-          <button className="px-10 py-3 border-none bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-transform ">Submit</button>
+          <button className="hover:bg-[#223] px-10 py-3 border-none bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
+            Submit
+          </button>
         </div>
       </form>
     </div>
@@ -78,7 +134,7 @@ function Input({
         type={type}
         id={name}
         name={name}
-        value={value||""}
+        value={value || ""}
         onChange={onChange}
         placeholder={placeholder}
         className="bg-[#ffffff11] px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent"
@@ -110,7 +166,7 @@ function Select({
     setSelectedOption(index);
     setIsOpen(false);
     if (onChange) {
-      onChange({target:{name, value:options[index]}});
+      onChange({ target: { name, value: options[index] } });
     }
   };
 
@@ -139,7 +195,7 @@ function Select({
     }
 
     if (onChange) {
-      onChange({target:{name, value:options[index]}});
+      onChange({ target: { name, value: options[index] } });
     }
   };
 
@@ -185,7 +241,7 @@ function Select({
           <div
             tabIndex={0}
             onKeyDown={handleKeys}
-            className="absolute z-10 mt-1 w-full bg-[#000000aa] border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent"
+            className="absolute z-10 mt-1 w-full bg-[#000000] border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent"
           >
             {options.map((option, i) => (
               <div
@@ -203,6 +259,18 @@ function Select({
       </div>
     </div>
   );
+}
+
+function Upload({
+  label,
+  name,
+  value = -1,
+  onChange,
+  options = [],
+  id,
+  className,
+}) {
+  
 }
 
 const cycle = (n, a, z) => {
