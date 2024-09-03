@@ -25,7 +25,7 @@ export default function Home() {
   const cardcontent = [
     {
       title: "Engineers' Stride",
-      src: "./engstride.jfif",
+      src: "./sprint.jpg",
       href: "/event/engineerstride",
     },
     { title: "UU Picasso", src: "./picasso.jfif", href: "/event/picasso" },
@@ -117,14 +117,18 @@ export default function Home() {
         style={backgroundImageStyle}
       >
         <div className="flex justify-between p-4 w-full">
-          <img
-            src="./UU-New-Logo.png"
+          <Image
+            width={190}
+            height={52}
+            src="/UU-New-Logo.png"
             className="md:w-[15vw] w-[50vw] bg-white p-3 rounded-xl absolute top-5 left-2"
             alt="logo"
           />
 
-          <img
-            src="./uit logo.png"
+          <Image
+            width={100}
+            height={60}
+            src="/uit logo.png"
             className="md:w-[8vw] w-[30vw] bg-white p-3 rounded-xl absolute top-4 right-2"
             alt="logo"
           />
@@ -154,7 +158,7 @@ export default function Home() {
         className="md:flex-row sm:flex-row flex flex-col-reverse items-center justify-center text-justify py-7"
         style={{ backgroundColor: "#f0f0f6" }}
       >
-        <div className="flex flex-col gap-5 ">
+        <div className="flex flex-col gap-5 flex-1">
           {para.split("\n").map((item, ind) => (
             <div
               className="md:w-[60vw] sm:w-[40vw] px-12 md:text-xl "
@@ -172,9 +176,9 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className=" mb-5 lg:p-12">
-          <img
-            className="md:w-[30vw] sm:w-[80vw] w-[75vw] h-[40vh] border-[#eee] shadow-xl border-2 rounded-3xl bg-blue-200 md:h-[63vh]"
+        <div className=" mb-5 lg:p-12 flex-1">
+          <img  
+            className="md:w-[30vw]  mx-auto w-[80%] sm:w-[80vw] border-[#eee] shadow-xl border-2 rounded-3xl bg-blue-200"
             src="./deansir.png"
             alt="picture"
           />
@@ -199,8 +203,10 @@ export default function Home() {
               behind the most electrifying Engineers&apos; Day event, where
               creativity meets competition in a whirlwind of excitement.
               <br />
+              <br />
               Our mission? To showcase the incredible talents of engineers while
               having a blast!
+              <br />
               <br />
               Join us as we transform ordinary days into extraordinary
               experiences. Get ready to laugh, learn, and unleash your inner

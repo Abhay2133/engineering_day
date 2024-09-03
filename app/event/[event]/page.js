@@ -38,14 +38,9 @@ export default function Page({ params }) {
 
   const descriptions = [
     `Unleash your creativity and transform faces into masterpieces! 'Canvas on Face' is a vibrant face art competition where talented artists showcase their skills and imagination. Using Faces as their canvas, participants will create stunning designs, patterns, and characters Witness the artistry and skill as our contestants bring their visions to life. Join us for a colorful and inspiring event that will leave you amazed by the possibilities of face art.
-                Who will be crowned the ultimate 'Canvas on Face' champion?
+Who will be crowned the ultimate 'Canvas on Face' champion?
     `,
-    `Gear up for the ultimate battle of skill and strategy! 'BGMI Badshah' is an
-    electrifying eSports tournament where top teams clash in the popular game Battlegrounds
-    Mobile India. Witness the best of the best compete for glory and a coveted prize pool. With
-    lightning-fast reflexes, clever tactics, and a hint of luck, only one team will reign supreme. Join
-    us for an action-packed day of gaming, excitement, and crowning the true 'Badshah' of BGMI.
-    `,
+    `Gear up for the ultimate battle of skill and strategy! 'BGMI Badshah' is an electrifying eSports tournament where top teams clash in the popular game Battlegrounds Mobile India. Witness the best of the best compete for glory and a coveted prize pool. With lightning-fast reflexes, clever tactics, and a hint of luck, only one team will reign supreme. Join us for an action-packed day of gaming, excitement, and crowning the true 'Badshah' of BGMI.`,
     `The Robo Race is a thrilling event where autonomous, AI-driven vehicles race on a challenging track. Teams develop unique algorithms to optimize speed, precision, and obstacle detection. This competition emphasizes innovation, technical skills, and teamwork, offering an exciting experience for tech enthusiasts and racing fans alike.
     `,
     `Unleash your hidden talent! 'Engineer Got Talent' is a showcase of skills beyond the blueprint. Join us as engineers take center stage to demonstrate their unique abilities, from singing and dancing to playing instruments or telling jokes. This entertaining event celebrates the diverse talents of engineers, proving they're more than just problem-solvers. Come witness the creativity, humor, and artistry of these talented individuals and vote for your favorite performer. Who will be crowned the ultimate 'Engineer Got Talent' champion?

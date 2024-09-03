@@ -40,7 +40,7 @@ const Eventspage = ({
         <div className="text-center p-3">
           <Link href={"/register"}>
             {" "}
-            <button className="p-4 bg-cyan-300 rounded-full font-bold md:text-2xl">
+            <button className="py-2 px-10 border hover:bg-blue-700 hover:text-white transition text-blue-800 border-blue-700 border-2 rounded-full font-bold md:text-2xl">
               Register Now!
             </button>
           </Link>
@@ -48,7 +48,9 @@ const Eventspage = ({
         <div className="p-7 text-2xl font-semibold">Event Description</div>
         <div className="p-7 pt-1 font-sans text-xl text-justify">
           {descriptions.split("\n").map((item, i) => (
-            <p key={i}>{item}</p>
+            <p key={i} className="text-justify">
+              {item}
+            </p>
           ))}
         </div>
         <div className="p-7 text-2xl font-semibold">Event Guidelines</div>
@@ -59,7 +61,7 @@ const Eventspage = ({
         </div>
       </div>
       <div className="md:flex justify-center">
-        <div>
+        <div className="flex-[3]">
           <div className="p-7 text-2xl font-semibold">Judging Criteria</div>
           <div className="p-7 pt-1 font-sans text-xl text-justify">
             {judCriteria.map((item, i) => (
@@ -67,7 +69,7 @@ const Eventspage = ({
             ))}
           </div>
         </div>
-        <div>
+        <div className="flex-[2]">
           <div className="p-7 text-2xl font-semibold">Faculty Coordinator</div>
           <div className="p-7 pt-1 font-sans text-xl">
             {facultyCod.map((item, i) => (
@@ -75,7 +77,7 @@ const Eventspage = ({
             ))}
           </div>
         </div>
-        <div>
+        <div className="flex-[2]">
           <div className="p-7 text-2xl font-semibold">Student coordinator</div>
           <div className="p-7 pt-1 font-sans text-xl">
             {studentCod[0]}{" "}

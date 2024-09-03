@@ -4,7 +4,17 @@ import { useState } from "react";
 
 const Page = () => {
   const [selectedEvents, setSelectedEvents] = useState([]);
-  const [formData, setFormData] = useState({ UniversityRollNo:"",EmailAddress:"", FirstName:"", LastName:"", Branch:"", Department:"", Year:"1st", PhoneNumber:"", SelectedEvents:"" });
+  const [formData, setFormData] = useState({
+    UniversityRollNo: "",
+    EmailAddress: "",
+    FirstName: "",
+    LastName: "",
+    Branch: "",
+    Department: "",
+    Year: "1st",
+    PhoneNumber: "",
+    SelectedEvents: "",
+  });
   // const [formData, setFormData] = useState({
   //   UniversityRollNo: "1234",
   //   EmailAddress: "a@b.c",
@@ -18,7 +28,7 @@ const Page = () => {
   // });
   const [isDisabled, setIsDisabled] = useState(false);
   const [infoMode, setInfoMode] = useState(
-    "none" || "error" || "success" || "uploading" 
+    "none" || "error" || "success" || "uploading"
   );
   const eventsLimit = 2;
 
@@ -32,7 +42,7 @@ const Page = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...formData, Year:parseInt(formData.Year)}),
+        body: JSON.stringify({ ...formData, Year: parseInt(formData.Year) }),
       });
 
       const result = await response.json();
@@ -309,7 +319,8 @@ const Page = () => {
           </button>
         </div>
       </form>
-      <div className="h-[2px] bg-gray-200"></div>
+
+      <div className="h-[2px] bg-[#333] rounded w-[98%] mx-auto"></div>
       {/* {showSuccessSnackbar && <Modal body={'User Registered'}/>} */}
     </div>
   );
