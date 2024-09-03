@@ -24,12 +24,12 @@ const footer = () => {
           Student Coordinator
         </div>
         <div className="md:flex-row flex flex-col md:gap-3 justify-center items-center">
-          <div className="text-white text-center text-lg flex flex-col lg:flex-row">Vansh Taneja<div> -  6397379913 - </div></div>
+          <div className="text-white text-center text-lg flex flex-col lg:flex-row">Vansh Taneja<div className="px-3">-  6397379913 - </div></div>
           <div className="text-[#888]">(B.TECH CSE 4th year)</div>
         </div>
-        <div className="md:flex-row mt-1 flex flex-col md:gap-3 justify-center items-center">
+        <div className="md:flex-row mt-2 flex flex-col md:gap-3 justify-center items-center">
           <div className="text-white text-center text-lg  flex flex-col lg:flex-row ">
-          Ishu Mishra<div> - 9193373770 - </div>
+          Ishu Mishra <div className="px-3">- 9193373770 - </div>
           </div>
           <div className="text-[#888]">(B.TECH CSE 3rd year)</div>
         </div>
