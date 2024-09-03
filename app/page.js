@@ -28,7 +28,7 @@ export default function Home() {
       src: "./sprint.jpg",
       href: "/event/engineerstride",
     },
-    { title: "UU Picasso", src: "./picasso.jfif", href: "/event/picasso" },
+    { title: "UU Picasso", src: "./painting.jpg", href: "/event/picasso" },
     {
       title: "Crack N Code",
       src: "./crackncode.jfif",
@@ -65,12 +65,12 @@ export default function Home() {
     },
     {
       title: "Cook Without Fire",
-      src: "cookwofire.jfif",
+      src: "cookwofire.jpg",
       href: "/event/cook-without-fire",
     },
     {
       title: "Canvas on Faces",
-      src: "canvasonfaces.jfif",
+      src: "canvasonfaces.jpg",
       href: "/event/canvas-on-faces",
     },
     {

@@ -1,8 +1,9 @@
 import React from 'react'
+import styles from "./card.module.css"
 
 const Card = (props) => {
     return (
-            <div className=" relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-[300px] ">
+            <div className={styles['event-card'] + " relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-[300px] "}>
                 <div className="flex items-center justify-center relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white shadow-lg bg-clip-border rounded-xl ">
                     <img src={props.src} alt={props.alt || "Card image"} className="w-full h-64" />
                 </div>
