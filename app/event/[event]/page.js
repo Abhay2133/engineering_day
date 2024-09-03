@@ -348,7 +348,7 @@ Who will be crowned the ultimate 'Canvas on Face' champion?
   const judCriteria = [
     ["Creativity", "Adherence to Theme", "Neatness"],
     [
-      "In a 10-point scoring structure, teams prefer to play aggressively, as it offers fewer placement points compared to a 15-point system. Since each kill still counts as one point, teams focus on making aggressive moves to collect more points. In this structure, the winning squad in each match will achieve 10 placement points. The second and third ranked teams will acquire six and five placement points, respectively.",
+      "In a 10-point scoring structure, teams prefer to play aggressiFvely, as it offers fewer placement points compared to a 15-point system. Since each kill still counts as one point, teams focus on making aggressive moves to collect more points. In this structure, the winning squad in each match will achieve 10 placement points. The second and third ranked teams will acquire six and five placement points, respectively.",
       "Points Distribution System for a Single Match:",
       "1st Place: 10 points",
       "2nd Place: 6 points",

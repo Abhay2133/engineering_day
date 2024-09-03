@@ -16,3 +16,18 @@
   from {transform: rotate(0deg);}
   to {transform: rotate(360deg);}
 }
+
+.grid-bg {
+  --grid-line: #112;
+  --gap: 30px;
+  height: 100%;
+  margin: 0;
+  background-color: black;
+  background-image: 
+    repeating-linear-gradient(var(--grid-line) 0 1px, transparent 1px var(--gap)),
+    repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px var(--gap));
+}
+
+.bg-blur{
+  backdrop-filter: blur(5px);
+}
