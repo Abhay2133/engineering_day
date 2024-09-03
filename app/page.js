@@ -65,7 +65,7 @@ export default function Home() {
     },
     {
       title: "Cook Without Fire",
-      src: "cookwofire.jpg",
+      src: "cooking.jpg",
       href: "/event/cook-without-fire",
     },
     {
