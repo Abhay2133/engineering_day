@@ -7,7 +7,7 @@ const footer = () => {
         <div className="text-white text-center p-4 py-10 text-4xl font-semibold">
           Contact Us At
         </div>
-        <div className="text-white text-center text-xl text-blue-500">
+        <div className=" text-center text-xl text-blue-500">
           Faculty Coordinator
         </div>
         <div className="md:flex-row flex flex-col md:gap-3 justify-center items-center">
@@ -20,7 +20,7 @@ const footer = () => {
           </div>
           <div className="text-[#888]">(Head of Department,CE)</div>
         </div>
-        <div className="text-white text-center text-xl mt-8 text-blue-500 ">
+        <div className="text-center text-xl mt-8 text-blue-500 ">
           Student Coordinator
         </div>
         <div className="md:flex-row flex flex-col md:gap-3 justify-center items-center">
