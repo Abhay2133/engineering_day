@@ -1,33 +1,44 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Register() {
+  const [infoTheme, setInfoTheme] = useState("suggest");
+  const [infoText, setInfoText] = useState(" * fields are required");
+
   const otherDepFee = 50;
   const [formData, setFormData] = useState({ transition_amount: otherDepFee });
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log({formData})
+    setInfoTheme("suggest");
+    setInfoText('Uploading Form ...')
+
+    console.log({ formData });
     try {
       const response = await fetch("/api/registration", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...formData, year : parseInt(formData.year )}),
+        body: JSON.stringify({ ...formData, year: parseInt(formData.year) }),
       });
 
       if (response.ok) {
         let data = await response.json();
-        console.log({data})
-        
+        console.log({ data });
+        setInfoTheme("success")
+        setInfoText("Form Submitted Successfully")
       } else {
         console.error("Failed to submit form");
+        setInfoTheme("error");
+        setInfoText("Error submitting form");
         // Handle the error (e.g., show an error message)
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      setInfoTheme("error");
+      setInfoText("Error submitting form");
       // Handle the error (e.g., show an error message)
     }
   };
@@ -202,12 +213,12 @@ export default function Register() {
           )}
         </div>
 
-        <InfoBox theme="none" />
+        <Info theme={infoTheme} onClose={()=>setInfoTheme('none')} text={infoText}  />
         {/* <InfoBox theme="error" />
         <InfoBox theme="success" /> */}
 
         {/* SUbmit button */}
-        <div className="my-4 flex ">
+        <div className="my-4 flex">
           <button className="hover:bg-[#223] px-10 py-3 border-gray-700 border bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
             Submit
           </button>
@@ -369,41 +380,16 @@ function Select({
   );
 }
 
-function Upload({
-  label,
-  name,
-  value = "",
-  onChange,
-  options = [],
-  className,
-  accept,
-  required = false,
-}) {
-  const handleChange = (e) => {
-    console.log(e.target.files[0]);
-    if (onChange) onChange(e);
-  };
-  return (
-    <label
-      htmlFor={name}
-      className={`w-full focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent transition-none  ${className}`}
-    >
-      <div className="mb-1">
-        {label} {required && "*"}
-      </div>
-      <input
-        required={required}
-        type="file"
-        id={name}
-        onChange={handleChange}
-        className="p-1 mb-3 w-full border border-gray-700 rounded focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent transition-none "
-        accept={accept}
-      />
-    </label>
-  );
+function InfoBox({ _theme = "none", text = "" }) {
+  const [theme, setTheme] = useState(_theme);
+  console.log("theme")
+  useEffect(() => {
+    setTheme(_theme);
+  }, [_theme]);
+  return <Info theme={theme} text={text} onClose={() => setTheme("none")} />;
 }
 
-function InfoBox({
+function Info({
   theme = "none" || "error" || "alert" || "success",
   text = "Info Box",
   onClose = () => {},
@@ -430,6 +416,9 @@ function InfoBox({
     case "alert":
       style = createStyle("flex", "#edff64", "#000");
       break;
+    case "suggest":
+      style = createStyle("flex", "royalblue", "#fff");
+      break;
     case "success":
       style = createStyle("flex", "#228844", "#fff");
       break;
@@ -437,7 +426,7 @@ function InfoBox({
   return (
     <div className="my-1 flex items-center rounded pr-3 py-2" style={style}>
       <div className="flex-1 px-4 text-wrap break-all">{text}</div>
-      <div className=" text-xs" onClick={onClose}>
+      <div className=" text-xs cursor-pointer" onClick={onClose}>
         ❌
       </div>
     </div>
