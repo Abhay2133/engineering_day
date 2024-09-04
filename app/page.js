@@ -134,7 +134,7 @@ export default function Home() {
           />
         </div>
         <div className="font-bold text-white font-sans text-center text-2xl md:text-7xl">
-          Engineers&apos; Day Mahotsava 2024{" "}
+          Engineers&apos; Day<br/>Mahotsava 2024{" "}
         </div>
         <div className=" text-white font-serif md:text-4xl">
           Unleash Your Inner Genius and Join the Fun!

@@ -21,7 +21,7 @@ export default function BGMI() {
     <div className="w-full grid-bg text-white py-10">
       <form
         onSubmit={onSubmit}
-        className="bg-blur w-[95%] mx-auto md:w-[600px] flex flex-col bg-[rgba(255,255,255,0.1)] px-10 rounded-3xl"
+        className="bg-blur w-[95%] mx-auto md:w-[600px] flex flex-col bg-[rgba(255,255,255,0.1)] px-10 rounded-3xl border border-gray-500"
       >
         <h1 className="text-center text-2xl md:4xl py-10">
           - BGMI BADSHAH -<br />{" "}
@@ -31,60 +31,60 @@ export default function BGMI() {
         <div className="flex flex-col md:flex-row gap-x-5">
           <Input
             label={"Team Name"}
-            name={"team-name"}
+            name={"team_name"}
             onChange={handleInput}
-            value={formData["team-name"]}
+            value={formData["team_name"]}
             className={"flex-1"}
             required
           />
           <Input
             required
             label={"Team Leader"}
-            name={"team-leader"}
+            name={"team_leader"}
             className={"flex-1"}
             onChange={handleInput}
-            value={formData["team-leader"]}
+            value={formData["team_leader"]}
           />
         </div>
         {/* Player 2 - player 3 */}
         <div className="flex flex-col md:flex-row gap-x-5">
           <Input
             label={"Player 2"}
-            name={"player-2"}
+            name={"player2"}
             className={"flex-1"}
             onChange={handleInput}
-            value={formData["player-2"]}
+            value={formData["player2"]}
           />
           <Input
             label={"Player 3"}
-            name={"player-3"}
+            name={"player3"}
             className={"flex-1"}
             onChange={handleInput}
-            value={formData["player-3"]}
+            value={formData["player3"]}
           />
         </div>
         {/* Year - Semester */}
         <div className="flex flex-col md:flex-row gap-x-5">
-          <Input
+          <Select
+            options={["1st", "2nd", "3rd", "4th", "5th"]}
             label={"Year"}
             name={"year"}
-            className={"flex-1"}
-            type="number"
             onChange={handleInput}
             value={formData["year"]}
+            className="flex-1"
             required
           />
-          <Input
+          <Select
+            options={Array.from({ length: 10 }).map((e, i) => i + 1)}
             label={"Semester"}
             name={"semester"}
-            className={"flex-1"}
-            type="number"
             onChange={handleInput}
             value={formData["semester"]}
+            className="flex-1"
             required
           />
         </div>
-        {/* Gender - Email */}
+        {/* Gender - Roll */}
         <div className="flex flex-col md:flex-row gap-x-5">
           <Select
             label={"Gender"}
@@ -92,6 +92,28 @@ export default function BGMI() {
             options={["Male", "Female", "Other"]}
             className={"flex-1"}
             onChange={handleInput}
+            required
+          />
+          <Input
+            className={"flex-1"}
+            label={"University Roll No."}
+            value={formData["rollno"]}
+            onChange={handleInput}
+            name="rollno"
+            placeholder={"eg. 23362xxxxxx"}
+            required
+          />
+        </div>
+
+        {/* Phone - email */}
+        <div className="flex flex-col md:flex-row gap-x-5">
+          <Input
+            className={"flex-1"}
+            type="phone"
+            label={"Phone"}
+            value={formData["phone"]}
+            onChange={handleInput}
+            name="phone"
             required
           />
           <Input
@@ -105,19 +127,10 @@ export default function BGMI() {
           />
         </div>
 
-        {/* Phone - Department */}
+        {/* Department */}
         <div className="flex flex-col md:flex-row gap-x-5">
-          <Input
-            className={"flex-1"}
-            type="phone"
-            label={"Phone"}
-            value={formData["phone"]}
-            onChange={handleInput}
-            name="phone"
-            required
-          />
           <Select
-            options={["UIT", "USCS", "Other"]}
+            options={departments}
             label={"Department"}
             name={"department"}
             onChange={handleInput}
@@ -125,10 +138,19 @@ export default function BGMI() {
             className="flex-1"
             required
           />
+          <Input
+            className={"flex-1"}
+            label={"Branch"}
+            value={formData["branch"]}
+            onChange={handleInput}
+            name="branch"
+            placeholder={"eg. Core"}
+            required
+          />
         </div>
 
         {/* Price - ScreenShot */}
-        <div className="flex flex-col md:flex-row gap-x-5">
+        <div className="flex flex-col md:flex-row gap-xfp5">
           <div className="flex-1 flex-shrink mb-2">
             <div className="text-white mb-2">Charges</div>
             <div className="text-gray-300 flex-1 h-[40px] border flex items-center justify-center border-[#444] rounded text-center">
@@ -146,9 +168,18 @@ export default function BGMI() {
         <div className="flex flex-col mt-2">
           {formData["department"] && formData["department"] != "UIT" && (
             <>
-            <div className="mb-2">Scan this QR and Upload the Screenshot</div>
-            <img src="/payment-qr-200.jpg" className="w-full md:w-[50%] mx-auto rounded"/>
-            <Upload className="mt-3" accept={"image/*"} label={"Payment ScreenShot"} required />
+              <div className="mb-2">Scan this QR and Upload the Screenshot</div>
+              <img
+                src="/payment-qr-200.jpg"
+                className="w-full md:w-[50%] mx-auto rounded"
+              />
+              <Input
+                label={"Transaction ID"}
+                name={"transaction_id"}
+                value={formData["transaction_id"]}
+                onChange={handleInput}
+                required
+              />
             </>
           )}
         </div>
@@ -158,7 +189,7 @@ export default function BGMI() {
         <InfoBox theme="success" /> */}
         {/* SUbmit button */}
         <div className="my-4 flex ">
-          <button className="hover:bg-[#223] px-10 py-3 border-none bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
+          <button className="hover:bg-[#223] px-10 py-3 border border-[#555] bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
             Submit
           </button>
         </div>
@@ -399,3 +430,18 @@ const cycle = (n, a, z) => {
   if (n > z) return a;
   return n;
 };
+
+const departments = [
+  "UIT",
+  "USCS",
+  "SALS",
+  "SLA",
+  "UIPS",
+  "LCD",
+  "UIM",
+  "USHHM",
+  "USJMC",
+  "UCN",
+  "USHS",
+  "SOA",
+];
