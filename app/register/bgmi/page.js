@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useState } from "react";
 
 export default function BGMI() {
@@ -142,9 +143,13 @@ export default function BGMI() {
         </div>
 
         {/* Payment screenshot */}
-        <div className="flex flex-col md:flex-row gap-x-5 mt-2">
+        <div className="flex flex-col mt-2">
           {formData["department"] && formData["department"] != "UIT" && (
-            <Upload accept={"image/*"} label={"Payment ScreenShot"} required />
+            <>
+            <div className="mb-2">Scan this QR and Upload the Screenshot</div>
+            <img src="/payment-qr-200.jpg" className="w-full md:w-[50%] mx-auto rounded"/>
+            <Upload className="mt-3" accept={"image/*"} label={"Payment ScreenShot"} required />
+            </>
           )}
         </div>
 
