@@ -5,19 +5,35 @@ import { useCallback, useState } from "react";
 
 export default function Register() {
   const otherDepFee = 50;
-  const [formData, setFormData] = useState({transition_amount: otherDepFee});
+  const [formData, setFormData] = useState({ transition_amount: otherDepFee });
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log({formData})
+    try {
+      const response = await fetch("/api/bgmi-registrations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        console.log("Form submitted successfully");
+        // You can handle the success here (e.g., show a success message, reset the form, etc.)
+      } else {
+        console.error("Failed to submit form");
+        // Handle the error (e.g., show an error message)
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // Handle the error (e.g., show an error message)
+    }
   };
 
   const handleInput = (e) => {
     let { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
-    
   };
-
 
   return (
     <div className="w-full grid-bg text-white py-10">
@@ -26,7 +42,6 @@ export default function Register() {
         className="bg-blur w-[95%] mx-auto md:w-[600px] flex flex-col bg-[rgba(255,255,255,0.1)] px-10 rounded-3xl border border-gray-500"
       >
         <h1 className="text-center text-2xl md:4xl py-10">
-          
           <span className="text-gray-400">Registration Form</span>
         </h1>
         {/* Team Name - Leader */}
@@ -49,7 +64,7 @@ export default function Register() {
           />
         </div>
         {/* Player 2 - player 3 */}
-      
+
         {/* Year - Semester */}
         <div className="flex flex-col md:flex-row gap-x-5">
           <Select
@@ -92,7 +107,7 @@ export default function Register() {
           />
         </div>
 
-        {/* Phone - Department */}
+        {/* Phone - email */}
         <div className="flex flex-col md:flex-row gap-x-5">
           <Input
             label={"Email"}
@@ -113,6 +128,8 @@ export default function Register() {
             required
           />
         </div>
+
+        {/* Department - Branch */}
         <div className="flex flex-col md:flex-row gap-x-5">
           <Select
             options={departments}
@@ -129,10 +146,24 @@ export default function Register() {
             value={formData["branch"]}
             onChange={handleInput}
             name="branch"
-            placeholder={'eg. Core'}
+            placeholder={"eg. Core"}
             required
           />
-          </div>
+        </div>
+
+        {/* Event selectoin */}
+        <div className="flex flex-col md:flex-row gap-x-5">
+          <Select
+            options={events}
+            label={"Select an Event"}
+            name={"event"}
+            onChange={handleInput}
+            value={formData["event"]}
+            className="flex-1"
+            required
+          />
+        </div>
+
         {/* Price - ScreenShot */}
         <div className="flex flex-col md:flex-row gap-x-5">
           <div className="flex-1 flex-shrink mb-2">
@@ -152,10 +183,13 @@ export default function Register() {
         <div className="flex flex-col mt-2">
           {formData["department"] && formData["department"] != "UIT" && (
             <>
-            <div className="mb-2">Scan this QR and Upload the Screenshot</div>
-            <img src="/payment-qr.jpg" className="w-full md:w-[50%] mx-auto rounded"/>
-            <Input
-                className={'mt-3'}
+              <div className="mb-2">Scan this QR and Upload the Screenshot</div>
+              <img
+                src="/payment-qr.jpg"
+                className="w-full md:w-[50%] mx-auto rounded"
+              />
+              <Input
+                className={"mt-3"}
                 label={"Transaction ID"}
                 name={"transaction_id"}
                 value={formData["transaction_id"]}
@@ -169,9 +203,10 @@ export default function Register() {
         <InfoBox theme="none" />
         {/* <InfoBox theme="error" />
         <InfoBox theme="success" /> */}
+
         {/* SUbmit button */}
         <div className="my-4 flex ">
-          <button className="hover:bg-[#223] px-10 py-3 border-none bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
+          <button className="hover:bg-[#223] px-10 py-3 border-gray-700 border bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
             Submit
           </button>
         </div>
@@ -412,7 +447,7 @@ const cycle = (n, a, z) => {
   if (n > z) return a;
   return n;
 };
-const departments=[
+const departments = [
   "UIT",
   "USCS",
   "SALS",
@@ -424,5 +459,21 @@ const departments=[
   "USJMC",
   "UCN",
   "USHS",
-  "SOA"
-]
+  "SOA",
+];
+
+const events = [
+  "Face Painting",
+  "Robo Race",
+  "Website making competition",
+  "Boat Race",
+  "Painting",
+  "Engineers' Day Fun Run",
+  "Technical Quiz Competition",
+  "Video Creation",
+  "Model Presentation",
+  "Cosplay",
+  "CODING WAR",
+  "Anime creation",
+  "Cook Without Fire",
+];

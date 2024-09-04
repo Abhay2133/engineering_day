@@ -10,7 +10,9 @@ CREATE TABLE RegistrationForm (
     SelectedEvents TEXT NOT NULL,
     Payment_Verified BOOLEAN NOT NULL DEFAULT FALSE,
     Transaction_ID VARCHAR(255),
-    Transaction_Amount DECIMAL(10, 2)
+    Transaction_Amount DECIMAL(10, 2),
+    Gender VARCHAR(10) NOT NULL,
+    Semester int NOT NULL
 );
 
 CREATE TABLE BGMI_Registrations (
