@@ -14,13 +14,18 @@ export default function BGMI() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const otherDepFee = 200;
+
   return (
     <div className="w-full grid-bg text-white py-10">
       <form
         onSubmit={onSubmit}
         className="bg-blur w-[95%] mx-auto md:w-[600px] flex flex-col bg-[rgba(255,255,255,0.1)] px-10 rounded-3xl"
       >
-        <h1 className="text-center text-4xl py-10">BGMI Registration Form</h1>
+        <h1 className="text-center text-2xl md:4xl py-10">
+          - BGMI BADSHAH -<br />{" "}
+          <span className="text-gray-400">Registration Form</span>
+        </h1>
         {/* Team Name - Leader */}
         <div className="flex flex-col md:flex-row gap-x-5">
           <Input
@@ -92,7 +97,17 @@ export default function BGMI() {
             value={formData["email"]}
           />
         </div>
+
+        {/* Phone - Department */}
         <div className="flex flex-col md:flex-row gap-x-5">
+          <Input
+            className={"flex-1"}
+            type="phone"
+            label={"Phone"}
+            value={formData["phone"]}
+            onChange={handleInput}
+            name="phone"
+          />
           <Select
             options={["UIT", "USCS", "Other"]}
             label={"Department"}
@@ -101,10 +116,32 @@ export default function BGMI() {
             value={formData["department"]}
             className="flex-1"
           />
+        </div>
+
+        {/* Price - ScreenShot */}
+        <div className="flex flex-col md:flex-row gap-x-5">
+          <div className="flex-1 flex-shrink mb-2">
+            <div className="text-white mb-2">Charges</div>
+            <div className="text-gray-300 flex-1 h-[40px] border flex items-center justify-center border-[#444] rounded text-center">
+              {formData["department"]
+                ? formData["department"] === "UIT"
+                  ? "FREE"
+                  : `Rs. ${otherDepFee}`
+                : "Choose a Department first"}
+            </div>
+          </div>
           <div className="flex-1"></div>
         </div>
+
+        {/* Payment screenshot */}
+        <div className="flex flex-col md:flex-row gap-x-5 mt-2">
+          {formData["department"] && formData["department"] != "UIT" && (
+            <Upload accept={"image/*"} label={"Payment ScreenShot"} />
+          )}
+        </div>
+
         {/* SUbmit button */}
-        <div className="mb-4 flex ">
+        <div className="my-4 flex ">
           <button className="hover:bg-[#223] px-10 py-3 border-none bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
             Submit
           </button>
@@ -173,6 +210,7 @@ function Select({
   const handleKeyDown = (event) => {
     if (event.key === " " || event.key === "Enter") {
       event.preventDefault();
+      console.log("HANDLING TOGGLE")
       handleToggle();
     }
   };
@@ -185,15 +223,16 @@ function Select({
     if (!(e.code !== "ArrowUp" || e.code !== "ArrowDown")) return;
     let index;
     if (e.code === "ArrowUp") {
-      index = cycle(selectedOption - 1, 0, options.length);
+      index = cycle(selectedOption - 1, 0, options.length-1);
       setSelectedOption(index);
     } else if (e.code === "ArrowDown") {
-      index = (selectedOption + 1) % options.length;
+      index = cycle(selectedOption + 1, 0, options.length-1);
       setSelectedOption(index);
     } else if (e.key === "Enter" || e.key === " ") {
-      setIsOpen(false);
+      return setIsOpen(false);
     }
 
+    console.log({ name, value: options[index] })
     if (onChange) {
       onChange({ target: { name, value: options[index] } });
     }
@@ -264,13 +303,28 @@ function Select({
 function Upload({
   label,
   name,
-  value = -1,
+  value = "",
   onChange,
   options = [],
-  id,
   className,
+  accept,
 }) {
-  
+  const handleChange = (e) => {
+    console.log(e.target.files[0]);
+    if (onChange) onChange(e);
+  };
+  return (
+    <label htmlFor={name} className={`w-full focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent transition-none  ${className}`}>
+      <div className="mb-1">{label}</div>
+      <input
+        type="file"
+        id={name}
+        onChange={handleChange}
+        className="mt-2 mb-3 w-full border border-gray-800 rounded focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent transition-none "
+        accept={accept}
+      />
+    </label>
+  );
 }
 
 const cycle = (n, a, z) => {

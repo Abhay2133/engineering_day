@@ -300,7 +300,7 @@ const Page = () => {
         )}
         {infoMode == "uploading" && (
           <div className="flex gap-x-3 p-4 text-base mt-5 rounded border border-gray-50 bg-[#225] text-white">
-            <div className="spinner border border-[5px] border-[rgba(0,0,0,0.5)] border-t-blue-700 h-[20px] w-[20px] rounded-full"></div>
+            <div className="spinner border-[5px] border-[rgba(0,0,0,0.5)] border-t-blue-700 h-[20px] w-[20px] rounded-full"></div>
             <div>Uploading Data</div>
             <div
               onClick={() => setInfoMode("none")}
