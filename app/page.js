@@ -211,7 +211,7 @@ export default function Home() {
               experiences. Get ready to laugh, learn, and unleash your inner
               engineer!
             </p>
-            ;
+            
           </div>
           <div className="flex justify-center flex-1">
             <img src={"/circle.png"} alt="circle.img" />
