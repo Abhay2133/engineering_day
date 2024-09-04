@@ -1,7 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import Input from "../components/input";
+import Select from "../components/select";
+import Info from "../components/infobox";
 
 export default function Register() {
   const [infoTheme, setInfoTheme] = useState("suggest");
@@ -12,7 +14,7 @@ export default function Register() {
   const onSubmit = async (e) => {
     e.preventDefault();
     setInfoTheme("suggest");
-    setInfoText('Uploading Form ...')
+    setInfoText("Uploading Form ...");
 
     console.log({ formData });
     try {
@@ -26,13 +28,22 @@ export default function Register() {
 
       if (response.ok) {
         let data = await response.json();
-        console.log({ data });
-        setInfoTheme("success")
-        setInfoText("Form Submitted Successfully");
+        let {type} = data;
+        switch(type){
+          case "success":
+            setInfoTheme("success");
+            setInfoText("Form Submitted Successfully");
+            break;
+          case "error":
+            setInfoTheme("error");
+            setInfoText(data.message);
+            break;
+        }
+        
       } else {
         console.error("Failed to submit form");
         setInfoTheme("error");
-        setInfoText("Error submitting form");
+        setInfoText("Error submitting form - Contact us from bottom of page");
         // Handle the error (e.g., show an error message)
       }
     } catch (error) {
@@ -52,7 +63,7 @@ export default function Register() {
     <div className="w-full grid-bg text-white py-10">
       <form
         onSubmit={onSubmit}
-        className="bg-blur w-[95%] mx-auto md:w-[600px] flex flex-col bg-[rgba(255,255,255,0.1)] px-10 rounded-3xl border border-gray-500"
+        className="bg-blur w-[95%] mx-auto md:w-[600px] flex flex-col bg-[rgba(255,255,255,0.1)] px-5 lg:px-10 rounded-3xl border border-gray-500"
       >
         <h1 className="text-center text-2xl md:4xl py-10">
           <span className="text-gray-400">Registration Form</span>
@@ -107,6 +118,7 @@ export default function Register() {
             options={["Male", "Female", "Other"]}
             className={"flex-1"}
             onChange={handleInput}
+            value={formData["gender"]}
             required
           />
           <Input
@@ -213,9 +225,11 @@ export default function Register() {
           )}
         </div>
 
-        <Info theme={infoTheme} onClose={()=>setInfoTheme('none')} text={infoText}  />
-        {/* <InfoBox theme="error" />
-        <InfoBox theme="success" /> */}
+        <Info
+          theme={infoTheme}
+          onClose={() => setInfoTheme("none")}
+          text={infoText}
+        />
 
         {/* SUbmit button */}
         <div className="my-4 flex">
@@ -228,216 +242,6 @@ export default function Register() {
   );
 }
 
-function Input({
-  label,
-  name,
-  value,
-  onChange,
-  type = "text",
-  placeholder,
-  className,
-  required = false,
-}) {
-  return (
-    <div className={`flex flex-col space-y-2  ${className} mb-4`}>
-      {label && (
-        <label htmlFor={name} className="text-sm font-medium text-white">
-          {label} {required && "*"}
-        </label>
-      )}
-      <input
-        required={required}
-        type={type}
-        id={name}
-        name={name}
-        value={value || ""}
-        onChange={onChange}
-        placeholder={placeholder}
-        className="bg-[#ffffff11] px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent"
-      />
-    </div>
-  );
-}
-// import React, { useState, useCallback } from 'react';
-
-function Select({
-  label,
-  name,
-  value = -1,
-  onChange,
-  options = [],
-  id,
-  className,
-  required = false,
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(value);
-
-  const handleToggle = useCallback(() => {
-    console.log("handle toggle");
-    setIsOpen((prevIsOpen) => !prevIsOpen);
-  }, []);
-
-  const handleOptionClick = (index, e) => {
-    e.stopPropagation();
-    setSelectedOption(index);
-    setIsOpen(false);
-    if (onChange) {
-      onChange({ target: { name, value: options[index] } });
-    }
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === " " || event.key === "Enter") {
-      event.preventDefault();
-      console.log("HANDLING TOGGLE");
-      handleToggle();
-    }
-  };
-
-  const handleKeys = (e) => {
-    e.stopPropagation();
-    // e.preventDefault();
-
-    // console.log("handling arrow", e)
-    if (!(e.code !== "ArrowUp" || e.code !== "ArrowDown")) return;
-    let index;
-    if (e.code === "ArrowUp") {
-      index = cycle(selectedOption - 1, 0, options.length - 1);
-      setSelectedOption(index);
-    } else if (e.code === "ArrowDown") {
-      index = cycle(selectedOption + 1, 0, options.length - 1);
-      setSelectedOption(index);
-    } else if (e.key === "Enter" || e.key === " ") {
-      return setIsOpen(false);
-    }
-
-    console.log({ name, value: options[index] });
-    if (onChange) {
-      onChange({ target: { name, value: options[index] } });
-    }
-  };
-
-  return (
-    <div
-      className={`relative flex flex-col mb-3 ${className}`}
-      // tabIndex={0}
-    >
-      {label && (
-        <label htmlFor={id} className="text-white mb-1">
-          {label} {required && "*"}
-        </label>
-      )}
-      <div
-        id={id}
-        className="relative cursor-pointer border border-gray-300 rounded-md shadow-sm bg-[#ffffff01] focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent"
-        onClick={handleToggle}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        // onKeyDown={handleKeyDown}
-      >
-        <div className="px-3 py-2 flex justify-between items-center">
-          <span className="text-white">
-            {selectedOption >= 0 ? options[selectedOption] : "Select an option"}
-          </span>
-          <svg
-            className={`w-5 h-5 transition-transform ${
-              isOpen ? "rotate-180" : ""
-            }`}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M6.293 9.293a1 1 0 011.414 0L10 10.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-        {isOpen && (
-          <div
-            tabIndex={0}
-            onKeyDown={handleKeys}
-            className="absolute z-10 mt-1 w-full bg-[#000000] border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent"
-          >
-            {options.map((option, i) => (
-              <div
-                key={i}
-                className={`px-3 py-2 cursor-pointer hover:bg-[#ffffff33] ${
-                  i === selectedOption ? "bg-[#4455ff]" : ""
-                }`}
-                onClick={(e) => handleOptionClick(i, e)}
-              >
-                {option}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function InfoBox({ _theme = "none", text = "" }) {
-  const [theme, setTheme] = useState(_theme);
-  console.log("theme")
-  useEffect(() => {
-    setTheme(_theme);
-  }, [_theme]);
-  return <Info theme={theme} text={text} onClose={() => setTheme("none")} />;
-}
-
-function Info({
-  theme = "none" || "error" || "alert" || "success",
-  text = "Info Box",
-  onClose = () => {},
-}) {
-  const createStyle = (display, backgroundColor, color) => ({
-    display,
-    backgroundColor,
-    color,
-  });
-
-  let style = {
-    display: "",
-    backgroundColor: "",
-    color: "",
-  };
-
-  switch (theme) {
-    case "none":
-      style = createStyle("none", "", "");
-      break;
-    case "error":
-      style = createStyle("flex", "#722", "");
-      break;
-    case "alert":
-      style = createStyle("flex", "#edff64", "#000");
-      break;
-    case "suggest":
-      style = createStyle("flex", "royalblue", "#fff");
-      break;
-    case "success":
-      style = createStyle("flex", "#228844", "#fff");
-      break;
-  }
-  return (
-    <div className="my-1 flex items-center rounded pr-3 py-2" style={style}>
-      <div className="flex-1 px-4 text-wrap break-all">{text}</div>
-      <div className=" text-xs cursor-pointer" onClick={onClose}>
-        ❌
-      </div>
-    </div>
-  );
-}
-
-const cycle = (n, a, z) => {
-  if (n < a) return z;
-  if (n > z) return a;
-  return n;
-};
 const departments = [
   "UIT",
   "USCS",

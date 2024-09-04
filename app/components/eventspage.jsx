@@ -34,6 +34,7 @@ const Eventspage = ({
 
   let registerHref = "/register";
   if (title[1] == "BGMI Badshah") registerHref = "/register/bgmi";
+  else if (title[1] == "Talent Hunt") registerHref = "/register/engineers_got_talent"
   return (
     <div>
       <div className="w-full" style={backgroundImageStyle2}>

@@ -1,5 +1,5 @@
 "use client";
-import Eventspage from "../../components/eventspage.js";
+import Eventspage from "../../components/eventspage.jsx";
 import { useEffect, useRef, useState } from "react";
 export default function Page({ params }) {
   let i = useRef();
@@ -520,7 +520,7 @@ Who will be crowned the ultimate 'Canvas on Face' champion?
     ["Shivam Kumar", 8825251672],
     ["Chahat Chauhan", 7248778119],
     ["Hasini Adimulam & Shreya Gupta", "9577161555 & 7505054765"],
-    ["Ambar Kumar", 9577161555],
+    ["Ambar Kumar", 8434781667],
     ["Shreya Gupta", 7505054765], // Duplicate name
   ];
 

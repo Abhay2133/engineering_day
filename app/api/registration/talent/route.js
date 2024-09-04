@@ -1,5 +1,4 @@
-// app/api/registration/route.js
-import { getPool } from "../../../lib/db";
+import { getPool } from "../../../../lib/db";
 
 // Handler function for different HTTP methods
 export async function POST(req) {
@@ -8,17 +7,16 @@ export async function POST(req) {
     branch,
     department,
     email,
-    event,
+    // events,
     firstname,
     gender,
     lastname,
     phone,
     rollno,
     semester,
-    transaction_id,
-    transition_amount,
     year,
   } = await req.json();
+
 
   try {
     const result = await pool.query(
@@ -46,14 +44,14 @@ export async function POST(req) {
         lastname,
         branch,
         department,
-        year,
+        parseInt(year),
         phone,
-        event,
+        "Engineers Got Talent",
         (department == "UIT" ? true : false),
-        transaction_id,
-        transition_amount,
+        "-_-",
+        0,
         gender, 
-        semester
+        parseInt(semester)
       ]
     );
     return new Response(JSON.stringify(result.rows[0]), { status: 201 });
