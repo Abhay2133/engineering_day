@@ -34,8 +34,10 @@ export default function BGMI() {
             onChange={handleInput}
             value={formData["team-name"]}
             className={"flex-1"}
+            required
           />
           <Input
+            required
             label={"Team Leader"}
             name={"team-leader"}
             className={"flex-1"}
@@ -69,6 +71,7 @@ export default function BGMI() {
             type="number"
             onChange={handleInput}
             value={formData["year"]}
+            required
           />
           <Input
             label={"Semester"}
@@ -77,6 +80,7 @@ export default function BGMI() {
             type="number"
             onChange={handleInput}
             value={formData["semester"]}
+            required
           />
         </div>
         {/* Gender - Email */}
@@ -87,6 +91,7 @@ export default function BGMI() {
             options={["Male", "Female", "Other"]}
             className={"flex-1"}
             onChange={handleInput}
+            required
           />
           <Input
             label={"Email"}
@@ -95,6 +100,7 @@ export default function BGMI() {
             type="email"
             onChange={handleInput}
             value={formData["email"]}
+            required
           />
         </div>
 
@@ -107,6 +113,7 @@ export default function BGMI() {
             value={formData["phone"]}
             onChange={handleInput}
             name="phone"
+            required
           />
           <Select
             options={["UIT", "USCS", "Other"]}
@@ -115,6 +122,7 @@ export default function BGMI() {
             onChange={handleInput}
             value={formData["department"]}
             className="flex-1"
+            required
           />
         </div>
 
@@ -136,10 +144,13 @@ export default function BGMI() {
         {/* Payment screenshot */}
         <div className="flex flex-col md:flex-row gap-x-5 mt-2">
           {formData["department"] && formData["department"] != "UIT" && (
-            <Upload accept={"image/*"} label={"Payment ScreenShot"} />
+            <Upload accept={"image/*"} label={"Payment ScreenShot"} required />
           )}
         </div>
 
+        <InfoBox theme="none" />
+        {/* <InfoBox theme="error" />
+        <InfoBox theme="success" /> */}
         {/* SUbmit button */}
         <div className="my-4 flex ">
           <button className="hover:bg-[#223] px-10 py-3 border-none bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
@@ -159,15 +170,17 @@ function Input({
   type = "text",
   placeholder,
   className,
+  required = false,
 }) {
   return (
     <div className={`flex flex-col space-y-2  ${className} mb-4`}>
       {label && (
         <label htmlFor={name} className="text-sm font-medium text-white">
-          {label}
+          {label} {required && "*"}
         </label>
       )}
       <input
+        required={required}
         type={type}
         id={name}
         name={name}
@@ -189,6 +202,7 @@ function Select({
   options = [],
   id,
   className,
+  required = false,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(value);
@@ -210,7 +224,7 @@ function Select({
   const handleKeyDown = (event) => {
     if (event.key === " " || event.key === "Enter") {
       event.preventDefault();
-      console.log("HANDLING TOGGLE")
+      console.log("HANDLING TOGGLE");
       handleToggle();
     }
   };
@@ -223,16 +237,16 @@ function Select({
     if (!(e.code !== "ArrowUp" || e.code !== "ArrowDown")) return;
     let index;
     if (e.code === "ArrowUp") {
-      index = cycle(selectedOption - 1, 0, options.length-1);
+      index = cycle(selectedOption - 1, 0, options.length - 1);
       setSelectedOption(index);
     } else if (e.code === "ArrowDown") {
-      index = cycle(selectedOption + 1, 0, options.length-1);
+      index = cycle(selectedOption + 1, 0, options.length - 1);
       setSelectedOption(index);
     } else if (e.key === "Enter" || e.key === " ") {
       return setIsOpen(false);
     }
 
-    console.log({ name, value: options[index] })
+    console.log({ name, value: options[index] });
     if (onChange) {
       onChange({ target: { name, value: options[index] } });
     }
@@ -245,7 +259,7 @@ function Select({
     >
       {label && (
         <label htmlFor={id} className="text-white mb-1">
-          {label}
+          {label} {required && "*"}
         </label>
       )}
       <div
@@ -308,22 +322,70 @@ function Upload({
   options = [],
   className,
   accept,
+  required = false,
 }) {
   const handleChange = (e) => {
     console.log(e.target.files[0]);
     if (onChange) onChange(e);
   };
   return (
-    <label htmlFor={name} className={`w-full focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent transition-none  ${className}`}>
-      <div className="mb-1">{label}</div>
+    <label
+      htmlFor={name}
+      className={`w-full focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent transition-none  ${className}`}
+    >
+      <div className="mb-1">
+        {label} {required && "*"}
+      </div>
       <input
+        required={required}
         type="file"
         id={name}
         onChange={handleChange}
-        className="mt-2 mb-3 w-full border border-gray-800 rounded focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent transition-none "
+        className="p-1 mb-3 w-full border border-gray-700 rounded focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent transition-none "
         accept={accept}
       />
     </label>
+  );
+}
+
+function InfoBox({
+  theme = "none" || "error" || "alert" || "success",
+  text = "Info Box",
+  onClose = () => {},
+}) {
+  const createStyle = (display, backgroundColor, color) => ({
+    display,
+    backgroundColor,
+    color,
+  });
+
+  let style = {
+    display: "",
+    backgroundColor: "",
+    color: "",
+  };
+
+  switch (theme) {
+    case "none":
+      style = createStyle("none", "", "");
+      break;
+    case "error":
+      style = createStyle("flex", "#722", "");
+      break;
+    case "alert":
+      style = createStyle("flex", "#edff64", "#000");
+      break;
+    case "success":
+      style = createStyle("flex", "#228844", "#fff");
+      break;
+  }
+  return (
+    <div className="my-1 flex items-center rounded pr-3 py-2" style={style}>
+      <div className="flex-1 px-4 text-wrap break-all">{text}</div>
+      <div className=" text-xs" onClick={onClose}>
+        ❌
+      </div>
+    </div>
   );
 }
 

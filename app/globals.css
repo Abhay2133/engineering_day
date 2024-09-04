@@ -36,5 +36,9 @@ input::file-selector-button{
   background-color: #222;
   color:#fff;
   border-radius: 5px;
-  padding: 8px;
+  padding: 5px 10px;
+}
+
+.a{
+  color: #edff64;
 }
