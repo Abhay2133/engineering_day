@@ -36,7 +36,7 @@ export default function Register() {
             break;
           case "error":
             setInfoTheme("error");
-            setInfoText(data.message);
+            setInfoText(data.message+" -- Contact US with Error");
             break;
         }
         

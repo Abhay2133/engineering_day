@@ -1,1 +1,4 @@
-SELECT * FROM RegistrationForm WHERE EmailAddress = 'john.doe@example.com';
+select * from RegistrationForm;
+select * from BGMI_Registrations;
+select * from Transactions;
+
