@@ -14,6 +14,7 @@ export default function Home() {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor:"#112"
   };
   const backgroundImageStyle2 = {
     backgroundImage: "url(/bg-cloud.avif)",
@@ -133,8 +134,8 @@ export default function Home() {
             alt="logo"
           />
         </div>
-        <div className="font-bold text-white font-sans text-center text-2xl md:text-7xl">
-          Engineers&apos; Day<br/>Mahotsava 2024{" "}
+        <div className="font-bold text-white font-sans text-center text-4xl md:text-7xl">
+          Engineers&apos; Day<br/><span className="text-2xl md:text-5xl font-semibold">Mahotsava 2024</span>{" "}
         </div>
         <div className=" text-white font-serif md:text-4xl">
           Unleash Your Inner Genius and Join the Fun!

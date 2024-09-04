@@ -14,6 +14,8 @@ export default function Register() {
   const handleInput = (e) => {
     let { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    
   };
 
 
