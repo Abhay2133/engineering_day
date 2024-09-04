@@ -40,14 +40,14 @@ const Eventspage = ({
         <h1 className="text-center  text-2xl md:text-4xl p-5">
           <b>{title[0]}</b>&nbsp;&nbsp;({title[1]})
         </h1>
-        <div className="text-center p-3">
+
+        {title[0] !== "Modelling" && <div className="text-center p-3">
           <Link href={registerHref}>
-            {" "}
             <button className="py-2 px-10 border hover:bg-blue-700 hover:text-white transition text-blue-800 border-blue-700 border-2 rounded-full font-bold md:text-2xl">
               Register Now!
             </button>
           </Link>
-        </div>
+        </div>}
         <div className="p-7 text-2xl font-semibold">Event Description</div>
         <div className="p-7 pt-1 font-sans text-xl text-justify">
           {descriptions.split("\n").map((item, i) => (
