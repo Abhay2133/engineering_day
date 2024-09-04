@@ -1,5 +1,5 @@
 // app/api/registration/route.js
-import {getPool} from './db';
+import {getPool} from '../../../lib/db';
 
 // Handler function for different HTTP methods
 export async function POST(req) {

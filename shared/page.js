@@ -56,7 +56,7 @@ export default function Home() {
       src: "headscratch.jfif",
       href: "/event/head-scratch",
     },
-    { title: "Digital India", src: "robo race.jpg", href: "/event/digital-india" },
+    { title: "Digital India", src: "robo.jpeg", href: "/event/digital-india" },
     { title: "Pirates", src: "pirates.jfif", href: "/event/pirates" },
     {
       title: "Life of an Engineer",
@@ -133,7 +133,8 @@ export default function Home() {
             alt="logo"
           />
         </div>
-        <div className="font-bold text-white font-sans text-center text-2xl md:text-7xl">
+        <div className="font-bold text-white font-sans text-2xl md:text-7xl">
+          {" "}
           Engineers&apos; Day Mahotsava 2024{" "}
         </div>
         <div className=" text-white font-serif md:text-4xl">
