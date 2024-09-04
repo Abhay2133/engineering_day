@@ -10,16 +10,18 @@ export default function Register() {
     e.preventDefault();
     console.log({formData})
     try {
-      const response = await fetch("/api/bgmi-registrations", {
+      const response = await fetch("/api/registration", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData, year : parseInt(formData.year )}),
       });
+
       if (response.ok) {
-        console.log("Form submitted successfully");
-        // You can handle the success here (e.g., show a success message, reset the form, etc.)
+        let data = await response.json();
+        console.log({data})
+        
       } else {
         console.error("Failed to submit form");
         // Handle the error (e.g., show an error message)

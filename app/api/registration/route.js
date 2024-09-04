@@ -66,7 +66,7 @@ export async function POST(req) {
         details: error.details,
         message: error.message,
       }),
-      { status: 204  }
+      { status: 409 }
     );
   }
 }
