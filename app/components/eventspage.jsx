@@ -109,7 +109,7 @@ const Eventspage = ({
 export default Eventspage;
 
 function Register({title, registerHref}) {
-  if (title == "Modelling" || title == "Engineer's Got Talent") {
+  if (title == "Modelling"){// || title == "Engineer's Got Talent") {
     return (
       <span className="text-2xl font-semibold">
         Inter-Department Competition

@@ -1,4 +1,4 @@
-import { getPool } from "../../../../lib/db";
+import { ErrorResponse, getPool } from "../../../../lib/db";
 
 // Handler function for different HTTP methods
 export async function POST(req) {
@@ -18,53 +18,84 @@ export async function POST(req) {
   } = await req.json();
 
 
+  let event = "Engineers' Got Talent"
   try {
-    const result = await pool.query(
-      `INSERT INTO RegistrationForm 
-    ( 
-      UniversityRollNo,
-      EmailAddress,
-      FirstName,
-      LastName,
-      Branch,
-      Department,
-      Year,
-      PhoneNumber,
-      SelectedEvents,
-      Payment_Verified,
-      Transaction_ID,
-      Transaction_Amount,
-      Gender,
-      Semester
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`,
-      [
+    // Check if the user already has a record in the database
+    const recordExists = await hasRecord(pool, rollno);
+    if (recordExists) {
+      // couting number of events registered in
+      let [ge_error, events] = await getEvents(pool, rollno);
+      if (ge_error)
+        return NextResponse.json({ type: "error", message: ge_error.message });
+
+      const eventCount = events.length;
+      if (eventCount >= 2) {
+        return NextResponse.json({
+          type: "error",
+          message: "Already in two events : " + events.join(" and "),
+        });
+      }
+
+      console.log({ events });
+      if (Array.isArray(events) && events.includes(event))
+        return Response.json({
+          type: "error",
+          message: `Already Registered in '${event}'`,
+        });
+
+      // adding transition id with error checking
+      if (department !== "UIT") {
+        let t_error = await addTransaction(pool, {
+          transaction_id,
+          rollno,
+          event,
+          amount: 200,
+          verified: department === "UIT",
+        });
+        if (t_error) return ErrorResponse(t_error);
+      }
+
+      // adding event to selectedEvent
+      let e_error = await addEvent(pool, rollno, event);
+      if (e_error) return ErrorResponse(e_error);
+      return SuccessResponse(event+" registration done")
+    }
+
+    // create new entry
+
+    let r_error = await insertRegistration(pool, {
+      rollno,
+      email,
+
+      firstname,//: team_leader,
+      lastname,
+      branch,
+
+      department,
+      year,
+      phone,
+
+      event: [event],
+      gender,
+      semester,
+    });
+    if (r_error) return ErrorResponse(r_error);
+
+    // insert new transaction;
+    if (department !== "UIT") {
+      let it_error = await addTransaction(pool, {
+        transaction_id,
         rollno,
-        email,
-        firstname,
-        lastname,
-        branch,
-        department,
-        parseInt(year),
-        phone,
-        "Engineers Got Talent",
-        (department == "UIT" ? true : false),
-        "-_-",
-        0,
-        gender, 
-        parseInt(semester)
-      ]
-    );
-    return new Response(JSON.stringify(result.rows[0]), { status: 201 });
-  } catch (error) {
-    console.error("Error creating record:", error);
-    return new Response(
-      JSON.stringify({
-        code: error.code,
-        details: error.details,
-        message: error.message,
-      }),
-      { status: 409 }
-    );
+        event,
+        amount: 200,
+        verified: department === "UIT",
+      });
+      if (it_error) return ErrorResponse(it_error);
+    }
+    return SuccessResponse("Entry Added");
+  } catch (e) {
+    console.error("Error creating record:", e);
+    return ErrorResponse(e)
   }
 }
 

@@ -8,6 +8,7 @@ export default function Select({
   options = [],
   id,
   className,
+  theme="dark",
   required = false,
 }) {
   const handleInput = (e) => {
@@ -15,6 +16,14 @@ export default function Select({
     // console.log({name, value})
     if (onChange) onChange({ target: { name, value } });
   };
+
+  let bgcolor = "bg-gray-950";
+  let textcolor = "text-white"
+  switch(theme){
+    case "light":
+      bgcolor="bg-gray-100"
+      break;
+  }
   return (
     <label
       htmlFor={name}
@@ -26,14 +35,14 @@ export default function Select({
       </div>
       <select
         id={name}
-        className="h-[40px] bg-gray-950 rounded-md px-3 focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent"
+        className={"h-[40px] rounded-md px-3 focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent "+ bgcolor}
         value={value}
         onChange={handleInput}
         required={required}
       >
         <option value="">Select an option</option>
         {options.map((item, i) => (
-          <option key={i} value={item} className="bg-gray-800 py-3 block">
+          <option key={i} value={item} className={" py-3 block "+bgcolor}>
             {item}
           </option>
         ))}
