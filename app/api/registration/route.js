@@ -8,6 +8,7 @@ import {
   getEvents,
   getPool,
   hasRecord,
+  SuccessResponse,
 } from "../../../lib/db";
 
 // Handler function for different HTTP methods
@@ -68,7 +69,7 @@ export async function POST(req) {
       // adding event to list
       let e_error = await addEvent(pool, rollno, event);
       if (e_error) return ErrorResponse(e_error);
-      return Response.json({ type: "success", message: "New Event Added" });
+      return SuccessResponse("")
     }
 
     const result = await pool.query(
@@ -115,7 +116,7 @@ export async function POST(req) {
       verified: department === "UIT",
     });
 
-    return NextResponse.json({ type: "success" });
+    return SuccessResponse("")
   } catch (error) {
     console.error("Error creating record:", error);
     return NextResponse.json({ type: "error", message: error.message });

@@ -9,6 +9,7 @@ import {
   hasRecord,
   insertBGMIRegistration,
   insertRegistration,
+  SuccessResponse,
 } from "../../../../lib/db";
 
 export async function POST(req) {
@@ -69,7 +70,7 @@ export async function POST(req) {
       // adding event to selectedEvent
       let e_error = await addEvent(pool, rollno, "BGMI BADSHAH");
       if (e_error) return ErrorResponse(e_error);
-      return Response.json({ type: "success", message: "New Event Added" });
+      return SuccessResponse("BGMI BADSHAH registration done")
     }
 
     // create new entry
@@ -112,7 +113,7 @@ export async function POST(req) {
       });
       if (it_error) return ErrorResponse(it_error);
     }
-    return NextResponse.json({ type: "sucess", message: "Entry Added" });
+    return SuccessResponse("Entry Added");
   } catch (e) {
     console.error("Error creating record:", e);
     return NextResponse.json({ type: "error", message: e.message });
