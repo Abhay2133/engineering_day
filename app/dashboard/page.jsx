@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useReducer, useRef, useState } from "react";
-import Select from "../components/select"
+import Select from "../components/select";
+import Link from "next/link";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
-  const [col, setCol] = useState('firstname')
+  const [col, setCol] = useState("firstname");
 
   const [data, setData] = useState([
     {
@@ -26,108 +27,185 @@ export default function Dashboard() {
       verified: false,
     },
   ]);
-  const [filteredData ,setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState(data);
+  const [refreshDisabled, setRefreshDisabled] = useState(false);
 
-  useEffect(() => {
-    fetch("/api/registration")
-      .then((res) => res.json())
-      .then((newdata) => {
-        setLoading(false);
-        setData(newdata);
-        setFilteredData(newdata);
-      });
-    // setData(result);
+  const fetchNewData = async () => {
+    setLoading(true);
+    let res = await fetch("/api/registration");
+    let newdata = await res.json();
+    setLoading(false);
+    setData(newdata);
+    setFilteredData(newdata);
+    // .then((res) => res.json())
+    // .then((newdata) => {
+    //   setLoading(false);
+    //   setData(newdata);
+    //   setFilteredData(newdata);
+    // });
+  };
 
-    return () => {};
-  }, []);
+  const loadData = () => {
+    // load data from cache first
+    fetchNewData();
+    // return ()=>{};
+  };
+
+  useEffect(loadData, []);
+
+  const handleRefresh = () => {
+    setRefreshDisabled(true);
+    fetchNewData()
+    .then(()=>setRefreshDisabled(false));
+  };
 
   const handleSearch = (searchTerm) => {
     // console.log(data);
     if (!searchTerm) {
       setFilteredData(data);
     } else {
-      setFilteredData(data.filter(row =>
-        (row[col]+"") && (row[col]+"").toLowerCase().includes(searchTerm.toLowerCase())
-      ));
+      setFilteredData(
+        data.filter(
+          (row) =>
+            row[col] + "" &&
+            (row[col] + "").toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
     }
   };
 
   return (
-    <div className="min-h-screen dark:bg-gray-950">
-      <h1 className="text-4xl text-center font-medium py-5 dark:text-white">
-        Registration Records
-      </h1>
-
-      {/* Table contanier */}
-      {loading && (
-        <div className="flex flex-col items-center justify-center p-10 text-xl gap-4 dark:text-white ">
-          <div className="h-20 w-20 border rounded-full border-[10px] border-[rgba(0,0,0,0.3)] border-t-[royalblue] spinner"></div>
-          <div>Loading</div>
-        </div>
-      )}
-      {!loading && (
-        <div className="w-[95%] rounded-md  mx-auto pb-10 min-h-20 mt-10">
-          <div className="w-full md:w-[500px] mx-auto">
-            <SearchBox className="mb-3" onSearch={handleSearch}/>
-            <Select className="w-full md:w-[300px] " theme="light" name="col" value={col} onChange={e => setCol(e.target.value)} label={'Search by Column'} options={Array.isArray(data) ? Object.keys(data[0] || {}) : []} />
-          </div>
-          <Table data={filteredData} className="rounded-md" />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function Table({ data, className }) {
-  if (!data?.length) return <div className="w-full rounded p-10 text-2xl text-center dark:text-gray-500 sticky top-0 border dark:border-gray-800 border-gray-50">No Records</div>;
-
-  // Get table headers dynamically from the first object keys
-  const headers = Object.keys(data[0]);
-
-  return (
     <>
-    <div className="mb-2 dark:text-gray-200 ml-5">{data.length} {data.length > 1 ? "records" : "record"} found</div>
-    <div
-      className={`relative overflow-x-auto border border-gray-300 rounded-md dark:border-gray-800 ${className}`}
-    >
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            {headers.map((header, index) => (
-              <th key={index} scope="col" className="px-6 py-3">
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-            >
-              {headers.map((header, colIndex) => (
-                <td key={colIndex} className="px-6 py-4 whitespace-nowrap">
-                  {/* Handle array data */}
-                  {Array.isArray(row[header])
-                    ? row[header].join(", ")
-                    : row[header] + ""}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      <div className="min-h-screen dark:bg-gray-950">
+        <h1 className="text-4xl text-center font-medium py-5 dark:text-white">
+          Registration Records
+        </h1>
+
+        {/* Table contanier */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center p-10 text-xl gap-4 dark:text-white ">
+            <div className="h-20 w-20 border rounded-full border-[10px] border-[rgba(0,0,0,0.3)] border-t-[royalblue] spinner"></div>
+            <div>Loading</div>
+          </div>
+        )}
+        {!loading && (
+          <div className="w-[95%] rounded-md  mx-auto pb-10 min-h-20 mt-10">
+            <div className="w-full md:w-[500px] mx-auto">
+              <SearchBox className="mb-3" onSearch={handleSearch} />
+              <Select
+                className="w-full md:w-[300px] "
+                theme="light"
+                name="col"
+                value={col}
+                onChange={(e) => setCol(e.target.value)}
+                label={"Search by Column"}
+                options={Array.isArray(data) ? Object.keys(data[0] || {}) : []}
+              />
+            </div>
+            <Table
+              data={filteredData}
+              className="rounded-md"
+              onRefresh={handleRefresh}
+              isRefreshDisabled={refreshDisabled}
+            />
+          </div>
+        )}
+      </div>
+      {/* logout container */}
+      <div className="dark:bg-gray-950 text-white text-center py-4">
+        <Link href={"/api/logout"}>
+          <button className=" border dark:border-gray-800 rounded py-3 px-5">
+            Logout
+          </button>
+        </Link>
+      </div>
     </>
   );
 }
 
-function SearchBox_({className, onSearch}) {
+function Table({ data, className, onRefresh, isRefreshDisabled }) {
+  if (!data?.length)
+    return (
+      <div className="w-full rounded p-10 text-2xl text-center dark:text-gray-500 sticky top-0 border dark:border-gray-800 border-gray-50">
+        No Records
+      </div>
+    );
+
+  // Get table headers dynamically from the first object keys
+  const headers = Object.keys(data[0]);
+  const [active, setActive] = useState(-1);
+
+  const handleActive = (index) => {
+    console.log("hanlding", { index, active });
+    if (index == active) return setActive(-1);
+    else setActive(index);
+  };
+
+  return (
+    <>
+      {/* Records Count */}
+      <div className="mb-2 dark:text-gray-200 ml-5">
+        <span>
+          {data.length} {data.length > 1 ? "records" : "record"} found
+        </span>
+        <button
+          className="px-3 bg-[royalblue] color-white py-2 rounded ml-3"
+          onClick={onRefresh}
+          disabled={isRefreshDisabled}
+        >
+          Refresh
+        </button>
+      </div>
+      {/* Main table */}
+      <div
+        className={`relative overflow-x-auto border border-gray-300 rounded-md dark:border-gray-800 ${className}`}
+      >
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-[#eef] dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              {headers.map((header, index) => (
+                <th key={index} scope="col" className="px-6 py-3">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className={
+                  "bg-white border-b dark:bg-gray-800 dark:border-gray-700 " +
+                  (rowIndex == active ? "dark:bg-gray-900 bg-gray-200" : "")
+                }
+              >
+                {headers.map((header, colIndex) => (
+                  <td
+                    key={colIndex}
+                    className={"px-6 py-4 whitespace-nowrap "}
+                    onClick={() => handleActive(rowIndex)}
+                    // onClick={() => console.log('clicked', rowIndex)}
+                  >
+                    {/* Handle array data */}
+                    {Array.isArray(row[header])
+                      ? row[header].join(", ")
+                      : row[header] + ""}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
+
+function SearchBox_({ className, onSearch }) {
   const inputRef = useRef(null);
 
   return (
-    <form className={"md:w-[500px] w-full md:mx-auto "+className}>
+    <form className={"md:w-[500px] w-full md:mx-auto " + className}>
       <label
         for="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -179,7 +257,10 @@ function SearchBox({ className, onSearch }) {
   };
 
   return (
-    <form className={"md:w-[500px] w-full md:mx-auto " + className} onSubmit={handleSearch}>
+    <form
+      className={"md:w-[500px] w-full md:mx-auto " + className}
+      onSubmit={handleSearch}
+    >
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -210,7 +291,6 @@ function SearchBox({ className, onSearch }) {
           ref={inputRef}
           className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search Records ..."
-          
         />
         <button
           type="submit"
