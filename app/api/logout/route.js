@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
-export async function GET(req) {
+export async function POST(req) {
+  return
   // Create a response to clear the 'admin' cookie and redirect
   const response = NextResponse.redirect(new URL('/login', req.url));
 
@@ -12,3 +13,4 @@ export async function GET(req) {
 
   return response;
 }
+

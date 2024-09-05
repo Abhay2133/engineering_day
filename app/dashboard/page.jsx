@@ -169,13 +169,13 @@ export default function Dashboard() {
         )}
       </div>
       {/* logout container */}
-      <div className="dark:bg-gray-950 dark:text-white text-center py-4">
+      {/* <div className="dark:bg-gray-950 dark:text-white text-center py-4">
         <Link href={"/api/logout"}>
           <button className=" border border-gray-300 dark:border-gray-800 rounded py-3 px-5">
             Logout
           </button>
         </Link>
-      </div>
+      </div> */}
     </>
   );
 }
