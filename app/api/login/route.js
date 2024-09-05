@@ -1,37 +1,27 @@
 // app/api/login/route.js
-import { secrets } from '../../../lib/hlpr';
-
 import { NextResponse } from 'next/server';
-import { SignJWT, jwtVerify } from 'jose';
+// import {secrets} from "../../../lib/hlpr"
 
-// Secret key for signing JWT (use an environment variable in production)
-const SECRET_KEY = secrets.JWT_KEY;
+export async function POST(request) {
+  // Define the correct admin password
+  const ADMIN_PASSWORD = process.env.ADMIN_KEY || 'admin-key'//secrets['ADMIN_KEY'];
 
-// Example user data (for demonstration purposes; use a real database in production)
-const users = [
-  { username: 'admin', password: secrets.ADMIN_KEY } // Example user
-];
+  // Parse the request body
+  const body = await request.json();
+  const { password } = body;
 
-export async function POST(req) {
-  try {
-    const { username, password } = await req.json();
-
-    // Validate user credentials (replace with your own authentication logic)
-    const user = users.find(user => user.username === username && user.password === password);
-    if (!user) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-    }
-
-    // Generate JWT
-    const jwt = await new SignJWT({ username })
-      .setExpirationTime('1h') // Token expires in 1 hour
-      .setIssuer('engineersday')
-      .setAudience('engineersday')
-      .sign(new TextEncoder().encode(SECRET_KEY));
-
-    // Return JWT in response
-    return NextResponse.json({ token: jwt });
-  } catch (error) {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  // Check if the provided password matches the correct admin password
+  if (password === ADMIN_PASSWORD) {
+    // Set the 'admin' cookie with the password value
+    const response = NextResponse.json({ success: true });
+    response.cookies.set('admin', ADMIN_PASSWORD, { 
+      httpOnly: true, 
+      secure: true,//process.env.NODE_ENV === 'production',
+      path: '/'
+    });
+    return response;
   }
+
+  // If the password is incorrect, return a 401 Unauthorized response
+  return NextResponse.json({ success: false, message: 'Invalid password' }, { status: 401 });
 }

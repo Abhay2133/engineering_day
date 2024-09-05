@@ -1,255 +1,220 @@
 "use client";
-import { useState, useCallback } from "react";
+
+import { useEffect, useReducer, useRef, useState } from "react";
 import Select from "../components/select"
 
-const CheckboxComponent = ({ isChecked, handleCheckboxChange }) => {
-    return (
-        <div className="flex items-center">
-            <input 
-                type="checkbox" 
-                id="my-checkbox" 
-                className="form-checkbox h-5 w-5 text-blue-600"
-                checked={isChecked}
-                onChange={handleCheckboxChange} 
+export default function Dashboard() {
+  const [loading, setLoading] = useState(true);
+  const [col, setCol] = useState('firstname')
+
+  const [data, setData] = useState([
+    {
+      universityrollno: "2320000157",
+      emailaddress: "abhaybishthestudent@gmail.com",
+      firstname: "Abhay",
+      lastname: " ",
+      branch: "MCA",
+      department: "USCS",
+      year: 2,
+      phonenumber: "9639147660",
+      selectedevents: ["BGMI BADSHAH", "Website making competition"],
+      gender: "Male",
+      semester: 3,
+      transaction_id: "hello",
+      event: "Face Painting",
+      amount: "50.00",
+      verified: false,
+    },
+  ]);
+  const [filteredData ,setFilteredData] = useState(data);
+
+  useEffect(() => {
+    fetch("/api/registration")
+      .then((res) => res.json())
+      .then((newdata) => {
+        setLoading(false);
+        setData(newdata);
+        setFilteredData(newdata);
+      });
+    // setData(result);
+
+    return () => {};
+  }, []);
+
+  const handleSearch = (searchTerm) => {
+    if (!searchTerm) {
+      setFilteredData(data);
+    } else {
+      setFilteredData(data.filter(row =>
+        row[col] && row[col].toString().toLowerCase().includes(searchTerm.toLowerCase())
+      ));
+    }
+  };
+
+  return (
+    <div className="min-h-screen dark:bg-gray-950">
+      <h1 className="text-4xl text-center font-medium py-5 dark:text-white">
+        Registration Records
+      </h1>
+
+      {/* Table contanier */}
+      {loading && (
+        <div className="flex flex-col items-center justify-center p-10 text-xl gap-4 dark:text-white ">
+          <div className="h-20 w-20 border rounded-full border-[10px] border-[rgba(0,0,0,0.3)] border-t-[royalblue] spinner"></div>
+          <div>Loading</div>
+        </div>
+      )}
+      {!loading && (
+        <div className="w-[95%] rounded-md  mx-auto pb-10 min-h-20 mt-10">
+          <div className="w-full md:w-[500px] mx-auto">
+            <SearchBox className="mb-3" onSearch={handleSearch}/>
+            <Select className="w-full md:w-[300px] " theme="light" name="col" value={col} onChange={e => setCol(e.target.value)} label={'Search by Column'} options={Array.isArray(data) ? Object.keys(data[0] || {}) : []} />
+          </div>
+          <Table data={filteredData} className="rounded-md" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Table({ data, className }) {
+  if (!data?.length) return <div className="w-full rounded p-10 text-2xl text-center dark:text-gray-500 sticky top-0 border dark:border-gray-800 border-gray-50">No Records</div>;
+
+  // Get table headers dynamically from the first object keys
+  const headers = Object.keys(data[0]);
+
+  return (
+    <div
+      className={`relative overflow-x-auto border border-gray-300 rounded-md dark:border-gray-800 ${className}`}
+    >
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            {headers.map((header, index) => (
+              <th key={index} scope="col" className="px-6 py-3">
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, rowIndex) => (
+            <tr
+              key={rowIndex}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+            >
+              {headers.map((header, colIndex) => (
+                <td key={colIndex} className="px-6 py-4 whitespace-nowrap">
+                  {/* Handle array data */}
+                  {Array.isArray(row[header])
+                    ? row[header].join(", ")
+                    : row[header] + ""}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function SearchBox_({className, onSearch}) {
+  const inputRef = useRef(null);
+
+  return (
+    <form className={"md:w-[500px] w-full md:mx-auto "+className}>
+      <label
+        for="default-search"
+        className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+      >
+        Search
+      </label>
+      <div className="relative">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <svg
+            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
             />
-            <label htmlFor="my-checkbox" className="ml-2 text-gray-700">
-                {isChecked ? 'Checked' : 'Unchecked'}
-            </label>
+          </svg>
         </div>
-    );
-};
+        <input
+          type="search"
+          id="default-search"
+          className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Search Records ..."
+          required
+        />
+        <button
+          type="submit"
+          className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+  );
+}
 
-// const Select = ({
-//     label,
-//     name,
-//     value = -1,
-//     onChange,
-//     options = [],
-//     id,
-//     className,
-//     required = false,
-// }) => {
-//     const [isOpen, setIsOpen] = useState(false);
-//     const [selectedOption, setSelectedOption] = useState(value);
+function SearchBox({ className, onSearch }) {
+  const inputRef = useRef(null);
 
-//     const handleToggle = useCallback(() => {
-//         setIsOpen((prevIsOpen) => !prevIsOpen);
-//     }, []);
+  const handleSearch = (event) => {
+    event.preventDefault();
+    onSearch(inputRef.current.value);
+  };
 
-//     const handleOptionClick = (index, e) => {
-//         e.stopPropagation();    
-//         setSelectedOption(index);
-//         setIsOpen(false);
-//         if (onChange) {
-//             onChange({ target: { name, value: options[index] } });
-//         }
-//     };
-
-//     const handleKeyDown = (event) => {
-//         if (event.key === " " || event.key === "Enter") {
-//             event.preventDefault();
-//             handleToggle();
-//         }
-//     };
-
-//     const handleKeys = (e) => {
-//         e.stopPropagation();
-//         if (e.code !== "ArrowUp" && e.code !== "ArrowDown") return;
-//         let index;
-//         if (e.code === "ArrowUp") {
-//             index = (selectedOption - 1 + options.length) % options.length;
-//         } else if (e.code === "ArrowDown") {
-//             index = (selectedOption + 1) % options.length;
-//         } else if (e.key === "Enter" || e.key === " ") {
-//             return setIsOpen(false);
-//         }
-
-//         setSelectedOption(index);
-//         if (onChange) {
-//             onChange({ target: { name, value: options[index] } });
-//         }
-//     };
-
-//     return (
-//         <div className={`relative flex flex-col mb-3 ${className}`} tabIndex={0}>
-//             {label && (
-//                 <label htmlFor={id} className="text-black mb-1">
-//                     {label} {required && "*"}
-//                 </label>
-//             )}
-//             <div
-//                 id={id}
-//                 className="relative cursor-pointer border border-gray-300 rounded-md shadow-sm bg-[#ffffff01] focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent"
-//                 onClick={handleToggle}
-//                 onKeyDown={handleKeyDown}
-//             >
-//                 <div className="px-3 py-2 flex justify-between items-center">
-//                     <span className="text-black">
-//                         {selectedOption >= 0 ? options[selectedOption] : "Select an option"}
-//                     </span>
-//                     <svg
-//                         className={`w-5 h-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
-//                         xmlns="http://www.w3.org/2000/svg"
-//                         viewBox="0 0 20 20"
-//                         fill="currentColor"
-//                         aria-hidden="true"
-//                     >
-//                         <path
-//                             fillRule="evenodd"
-//                             d="M6.293 9.293a1 1 0 011.414 0L10 10.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-//                             clipRule="evenodd"
-//                         />
-//                     </svg>
-//                 </div>
-//                 {isOpen && (
-//                     <div
-//                         tabIndex={0}
-//                         onKeyDown={handleKeys}
-//                         className="absolute z-10 mt-1 w-full bg-[#000000] border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent"
-//                     >
-//                         {options.map((option, i) => (
-//                             <div
-//                                 key={i}
-//                                 className={`px-3 py-2 cursor-pointer hover:bg-[#ffffff33] text-white ${
-//                                     i === selectedOption ? "bg-[#4455ff]" : ""
-//                                 }`}
-//                                 onClick={(e) => handleOptionClick(i, e)}
-//                             >
-//                                 {option}
-//                             </div>
-//                         ))}
-//                     </div>
-//                 )}
-//             </div>
-//         </div>
-//     );
-// };
-
-const Page = () => {
-    const [checkboxStates, setCheckboxStates] = useState([
-        { id: 1, isChecked: false },
-        // Add more checkboxes here if needed
-    ]);
-
-    const [searchColumn, setSearchColumn] = useState("Name");
-    const [searchQuery, setSearchQuery] = useState("");
-
-    const data = [
-        { id: 1, name: "John Brown", email: "john@example.com", events: "BGMI", rollNo: "12345", transactionId: "TRX12345" },
-        // Add more data rows here
-    ];
-
-    const handleCheckboxChange = (index) => {
-        const updatedCheckboxes = [...checkboxStates];
-        updatedCheckboxes[index].isChecked = !updatedCheckboxes[index].isChecked;
-        setCheckboxStates(updatedCheckboxes);
-    };
-
-    const handleInput = (event) => {
-        setSearchColumn(event.target.value);
-    };
-
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
-    };
-
-    const filteredData = data.filter((row) => {
-        if (searchColumn === "Name") {
-            return row.name.toLowerCase().includes(searchQuery.toLowerCase());
-        } else if (searchColumn === "Email Id") {
-            return row.email.toLowerCase().includes(searchQuery.toLowerCase());
-        } else if (searchColumn === "Events") {
-            return row.events.toLowerCase().includes(searchQuery.toLowerCase());
-        } else if (searchColumn === "Roll NO") {
-            return row.rollNo.toLowerCase().includes(searchQuery.toLowerCase());
-        } else if (searchColumn === "Transaction Id") {
-            return row.transactionId.toLowerCase().includes(searchQuery.toLowerCase());
-        }
-        return false;
-    });
-
-    return (
-        <div>
-            <div className="p-9">
-                <div className="font-bold text-4xl">Dashboard</div>
-                <div className="flex flex-col md:flex-row gap-x-5">
-                    <Select
-                        theme="light"
-                        label={"Search By Column Name"}
-                        name={"searchcolname"}
-                        options={["Name", "Email Id", "Events", "Roll NO", "Transaction Id"]}
-                        className={"flex-1 "}
-                        onChange={handleInput}
-                        required
-                    />
-                    <div className="flex-1"></div>
-                </div>
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        value={searchQuery}
-                        onChange={handleSearch}
-                        className="flex-1 p-2 border border-gray-300 rounded-md"
-                    />
-            </div>
-
-            <div className="relative shadow-md sm:rounded-lg">
-                <div className="flex flex-col">
-                    <div className="-m-1.5 overflow-x-auto">
-                        <div className="p-1.5 min-w-full inline-block align-middle">
-                            <div className="overflow-hidden">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                                Name
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                                Email Id
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                                Events
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
-                                                Roll No
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
-                                                Transaction Id
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
-                                                Payment CheckBox
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-200">
-                                        {filteredData.map((row, index) => (
-                                            <tr key={row.id} className="hover:bg-gray-100">
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                                    {row.name}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                                    {row.email}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{row.events}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">{row.rollNo}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">{row.transactionId}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                                    <CheckboxComponent
-                                                        isChecked={checkboxStates[index].isChecked}
-                                                        handleCheckboxChange={() => handleCheckboxChange(index)}
-                                                    />
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <form className={"md:w-[500px] w-full md:mx-auto " + className} onSubmit={handleSearch}>
+      <label
+        htmlFor="default-search"
+        className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+      >
+        Search
+      </label>
+      <div className="relative">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <svg
+            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
         </div>
-    );
-};
-
-export default Page;
+        <input
+          type="search"
+          id="default-search"
+          ref={inputRef}
+          className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Search Records ..."
+          required
+        />
+        <button
+          type="submit"
+          className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+  );
+}

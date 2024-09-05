@@ -7,6 +7,7 @@ import {
   ErrorResponse,
   getEvents,
   getPool,
+  getRegistrations,
   hasRecord,
   SuccessResponse,
 } from "../../../lib/db";
@@ -43,7 +44,7 @@ export async function POST(req) {
       if (eventCount >= 2) {
         return NextResponse.json({
           type: "error",
-          message: "Already in two events : "+events.join(" and "),
+          message: "Already in two events : " + events.join(" and "),
         });
       }
 
@@ -69,7 +70,7 @@ export async function POST(req) {
       // adding event to list
       let e_error = await addEvent(pool, rollno, event);
       if (e_error) return ErrorResponse(e_error);
-      return SuccessResponse("")
+      return SuccessResponse("");
     }
 
     const result = await pool.query(
@@ -116,7 +117,7 @@ export async function POST(req) {
       verified: department === "UIT",
     });
 
-    return SuccessResponse("")
+    return SuccessResponse("");
   } catch (error) {
     console.error("Error creating record:", error);
     return NextResponse.json({ type: "error", message: error.message });
@@ -124,34 +125,33 @@ export async function POST(req) {
 }
 
 export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const searchMap = {};
-  for (let [key, value] of searchParams.entries()) {
-    searchMap[key] = value;
-  }
-  const email = searchParams.get("email"); // Optional: fetch specific user by email
+  const adminCookie = req.cookies.get("admin")?.value;
+  // console.log({adminCookie})
+  if (!adminCookie || adminCookie !== (process.env.ADMIN_KEY || "admin-key"))
+    return NextResponse.json(
+      { message: "Unauthorized access" },
+      { status: 401 } // 401 Unauthorized status
+    );
 
   try {
-    let result;
-    if (email) {
-      result = await pool.query(
-        "SELECT * FROM RegistrationForm WHERE EmailAddress = $1",
-        [email || true]
-      );
-    } else {
-      result = await pool.query("SELECT * FROM RegistrationForm");
-    }
+    // Query to select all registrations from the table
+    const result = await getRegistrations();
 
-    return new Response(JSON.stringify(result.rows), { status: 200 });
+    // Return the result as JSON
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("Error fetching records:", error);
-    return new Response(JSON.stringify({ error: "Error fetching records" }), {
-      status: 500,
-    });
+    console.error("Error fetching registrations:", error);
+
+    // Return an error response
+    return NextResponse.json(
+      { message: "Error fetching registrations" },
+      { status: 500 }
+    );
   }
 }
 
 export async function DELETE(req) {
+  return;
   const pool = await getPool();
   const { EmailAddress } = await req.json();
 

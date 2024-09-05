@@ -2,6 +2,7 @@ export default function Info({
   theme = "none" || "error" || "alert" || "success",
   text = "Info Box",
   onClose = () => {},
+  className=""
 }) {
   const createStyle = (display, backgroundColor, color) => ({
     display,
@@ -33,7 +34,7 @@ export default function Info({
       break;
   }
   return (
-    <div className="my-1 flex items-center rounded pr-3 py-2" style={style}>
+    <div className={"my-1 flex items-center rounded pr-3 py-2 "+className} style={style}>
       <div className="flex-1 px-4 text-wrap">{text}</div>
       <div className=" text-xs cursor-pointer" onClick={onClose}>
         ❌
