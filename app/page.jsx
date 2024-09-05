@@ -6,7 +6,7 @@ import Faq from "./components/faq";
 import Link from "next/link";
 export default function Home() {
   const backgroundImageStyle = {
-    backgroundImage: "url(/bg-img.png)",
+    backgroundImage: "url(/hero-bg.jpg)",
     backgroundSize: "cover", // Ensures the image covers the container
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
