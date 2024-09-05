@@ -42,11 +42,12 @@ export default function Dashboard() {
   }, []);
 
   const handleSearch = (searchTerm) => {
+    // console.log(data);
     if (!searchTerm) {
       setFilteredData(data);
     } else {
       setFilteredData(data.filter(row =>
-        row[col] && row[col].toString().toLowerCase().includes(searchTerm.toLowerCase())
+        (row[col]+"") && (row[col]+"").toLowerCase().includes(searchTerm.toLowerCase())
       ));
     }
   };
@@ -84,6 +85,8 @@ function Table({ data, className }) {
   const headers = Object.keys(data[0]);
 
   return (
+    <>
+    <div className="mb-2 dark:text-gray-200 ml-5">{data.length} {data.length > 1 ? "records" : "record"} found</div>
     <div
       className={`relative overflow-x-auto border border-gray-300 rounded-md dark:border-gray-800 ${className}`}
     >
@@ -116,6 +119,7 @@ function Table({ data, className }) {
         </tbody>
       </table>
     </div>
+    </>
   );
 }
 
@@ -206,7 +210,7 @@ function SearchBox({ className, onSearch }) {
           ref={inputRef}
           className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search Records ..."
-          required
+          
         />
         <button
           type="submit"
