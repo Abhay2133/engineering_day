@@ -124,7 +124,7 @@ export default function BGMI() {
             value={formData["branch"]}
             onChange={handleInput}
             name="branch"
-            placeholder={'eg. Core'}
+            placeholder={'eg. UIT'}
             required
           />
           </div>
