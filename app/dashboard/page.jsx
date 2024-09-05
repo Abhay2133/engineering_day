@@ -37,6 +37,8 @@ export default function Dashboard() {
     setLoading(false);
     setData(newdata);
     setFilteredData(newdata);
+
+    return newdata;
     // .then((res) => res.json())
     // .then((newdata) => {
     //   setLoading(false);
@@ -47,7 +49,20 @@ export default function Dashboard() {
 
   const loadData = () => {
     // load data from cache first
-    fetchNewData();
+    let newdata;
+    if (localStorage.getItem("newdata")) {
+      try {
+        newdata = JSON.parse(localStorage.getItem("newdata"));
+        setLoading(false);
+        setData(newdata);
+        setFilteredData(newdata);
+        return;
+      } catch (e) {}
+    }
+    if (newdata) return;
+    fetchNewData().then((newdata) => {
+      localStorage.setItem("newdata", JSON.stringify(newdata));
+    });
     // return ()=>{};
   };
 
@@ -55,8 +70,10 @@ export default function Dashboard() {
 
   const handleRefresh = () => {
     setRefreshDisabled(true);
-    fetchNewData()
-    .then(()=>setRefreshDisabled(false));
+    fetchNewData().then((newdata) => {
+      setRefreshDisabled(false);
+      localStorage.setItem("newdata", JSON.stringify(newdata));
+    });
   };
 
   const handleSearch = (searchTerm) => {
@@ -74,6 +91,45 @@ export default function Dashboard() {
     }
   };
 
+  const handleVerify = (transaction_id, verified, setDisabled) => {
+    console.log({ transaction_id, verified, setDisabled });
+    setDisabled(true);
+    let index;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].transaction_id === transaction_id) {
+        index = i;
+        break;
+      }
+    }
+    data[index].verified = "updating";
+
+    fetch("/api/transaction", {
+      headers: {
+        "content-type": "applicaton/json",
+      },
+      method:'post',
+      body: JSON.stringify({ transaction_id, value: !verified }),
+    })
+      .then(async (res) => {
+        if (res.ok) {
+          let {type} = await res.json();
+          switch(type){
+            case 'success':
+              data[index].verified = !verified;
+              setData([...data])
+              setDisabled(false);
+              localStorage.setItem('newdata', JSON.stringify(data))
+              break;
+            case 'error':
+              break;
+          }
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <>
       <div className="min-h-screen dark:bg-gray-950">
@@ -84,7 +140,7 @@ export default function Dashboard() {
         {/* Table contanier */}
         {loading && (
           <div className="flex flex-col items-center justify-center p-10 text-xl gap-4 dark:text-white ">
-            <div className="h-20 w-20 border rounded-full border-[10px] border-[rgba(0,0,0,0.3)] border-t-[royalblue] spinner"></div>
+            <div className="h-20 w-20 rounded-full border-[10px] dark:border-[rgba(0,0,0,0.3)] border-[rgba(0,0,0,0.1)] border-t-[royalblue] spinner"></div>
             <div>Loading</div>
           </div>
         )}
@@ -103,6 +159,7 @@ export default function Dashboard() {
               />
             </div>
             <Table
+              handleVerify={handleVerify}
               data={filteredData}
               className="rounded-md"
               onRefresh={handleRefresh}
@@ -112,9 +169,9 @@ export default function Dashboard() {
         )}
       </div>
       {/* logout container */}
-      <div className="dark:bg-gray-950 text-white text-center py-4">
+      <div className="dark:bg-gray-950 dark:text-white text-center py-4">
         <Link href={"/api/logout"}>
-          <button className=" border dark:border-gray-800 rounded py-3 px-5">
+          <button className=" border border-gray-300 dark:border-gray-800 rounded py-3 px-5">
             Logout
           </button>
         </Link>
@@ -123,7 +180,13 @@ export default function Dashboard() {
   );
 }
 
-function Table({ data, className, onRefresh, isRefreshDisabled }) {
+function Table({
+  data,
+  className,
+  onRefresh,
+  isRefreshDisabled,
+  handleVerify,
+}) {
   if (!data?.length)
     return (
       <div className="w-full rounded p-10 text-2xl text-center dark:text-gray-500 sticky top-0 border dark:border-gray-800 border-gray-50">
@@ -136,7 +199,7 @@ function Table({ data, className, onRefresh, isRefreshDisabled }) {
   const [active, setActive] = useState(-1);
 
   const handleActive = (index) => {
-    console.log("hanlding", { index, active });
+    // console.log("hanlding", { index, active });
     if (index == active) return setActive(-1);
     else setActive(index);
   };
@@ -149,7 +212,7 @@ function Table({ data, className, onRefresh, isRefreshDisabled }) {
           {data.length} {data.length > 1 ? "records" : "record"} found
         </span>
         <button
-          className="px-3 bg-[royalblue] color-white py-2 rounded ml-3"
+          className="px-5 bg-[royalblue] text-white py-2 rounded-full ml-3 hover:bg-blue-700"
           onClick={onRefresh}
           disabled={isRefreshDisabled}
         >
@@ -187,9 +250,22 @@ function Table({ data, className, onRefresh, isRefreshDisabled }) {
                     // onClick={() => console.log('clicked', rowIndex)}
                   >
                     {/* Handle array data */}
-                    {Array.isArray(row[header])
-                      ? row[header].join(", ")
-                      : row[header] + ""}
+                    {Array.isArray(row[header]) ? (
+                      row[header].join(", ")
+                    ) : header.toLowerCase() == "verified" ? (
+                      <VerifyButton
+                        value={row[header] + ""}
+                        onClick={(setDisabled) =>
+                          handleVerify(
+                            row["transaction_id"],
+                            row[header],
+                            setDisabled
+                          )
+                        }
+                      />
+                    ) : (
+                      row[header] + ""
+                    )}
                   </td>
                 ))}
               </tr>
@@ -198,6 +274,24 @@ function Table({ data, className, onRefresh, isRefreshDisabled }) {
         </table>
       </div>
     </>
+  );
+}
+
+function VerifyButton({ value, onClick }) {
+  const [disabled, setDisabled] = useState(false);
+  if (value == "null") return <></>;
+  const handleClick = () => {
+    onClick((newval) => setDisabled(Boolean(newval)));
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={disabled}
+      className={`border border-gray-200 dark:border-gray-700 px-3 py-1 rounded cursor-pointer active:scale-95`}
+    >
+      {value}
+    </button>
   );
 }
 
