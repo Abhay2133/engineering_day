@@ -1,5 +1,8 @@
 // app/api/registration/route.js
+import dotenv from "dotenv"
 import { NextResponse } from "next/server";
+dotenv.config()
+
 import {
   addEvent,
   addTransaction,

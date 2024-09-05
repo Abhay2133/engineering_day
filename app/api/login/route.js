@@ -1,4 +1,6 @@
 // app/api/login/route.js
+import dotenv from "dotenv"
+dotenv.config()
 import { NextResponse } from 'next/server';
 // import {secrets} from "../../../lib/hlpr"
 
