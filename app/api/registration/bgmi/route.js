@@ -102,15 +102,16 @@ export async function POST(req) {
     if (r_error) return ErrorResponse(r_error);
 
     // insert new transaction;
-    let it_error = await addTransaction(pool, {
-      transaction_id,
-      rollno,
-      event:"BGMI BADSHAH",
-      amount: 200,
-      verified: department === "UIT",
-    });
-    if(it_error) return ErrorResponse(it_error);
-
+    if (department !== "UIT") {
+      let it_error = await addTransaction(pool, {
+        transaction_id,
+        rollno,
+        event: "BGMI BADSHAH",
+        amount: 200,
+        verified: department === "UIT",
+      });
+      if (it_error) return ErrorResponse(it_error);
+    }
     return NextResponse.json({ type: "sucess", message: "Entry Added" });
   } catch (e) {
     console.error("Error creating record:", e);

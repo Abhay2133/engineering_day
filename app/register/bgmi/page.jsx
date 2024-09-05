@@ -10,11 +10,13 @@ export default function BGMI() {
   const [infoTheme, setInfoTheme] = useState("suggest");
   const [infoText, setInfoText] = useState(" * fields are required");
   const [formData, setFormData] = useState({});
+  const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setInfoTheme("suggest");
     setInfoText("Uploading Form ...");
+    setSubmitDisabled(true);
 
     console.log(formData);
 
@@ -53,6 +55,7 @@ export default function BGMI() {
       setInfoText("Error submitting form");
       // Handle the error (e.g., show an error message)
     }
+    setSubmitDisabled(false);
   };
 
   const handleInput = (e) => {
@@ -253,7 +256,7 @@ export default function BGMI() {
         <InfoBox theme="success" /> */}
         {/* SUbmit button */}
         <div className="my-4 flex ">
-          <button className="hover:bg-[#223] px-10 py-3 border border-[#555] bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
+          <button disabled={submitDisabled} className="hover:bg-[#223] px-10 py-3 border border-[#555] bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
             Submit
           </button>
         </div>
