@@ -30,7 +30,7 @@ export default function Select({
       <select
         id={name}
         className={
-          "h-[40px] rounded-md px-3 focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent dark:bg-gray-900 dark:text-gray-100"
+          "border border-gray-300 h-[40px] rounded-md px-3 focus:outline-none focus:ring-[3px] focus:ring-blue-500 focus:border-transparent dark:bg-gray-900 dark:text-gray-100"
         }
         value={value}
         onChange={handleInput}
