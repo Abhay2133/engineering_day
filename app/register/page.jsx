@@ -126,7 +126,7 @@ export default function Register() {
             required
           />
           <Input
-            label={"Roll No"}
+            label={"University Roll No."}
             name={"rollno"}
             className={"flex-1"}
             type="number"
