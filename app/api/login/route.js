@@ -1,5 +1,5 @@
 // app/api/login/route.js
-import { secrets } from '@/lib/hlpr';
+import { secrets } from '../../../lib/hlpr';
 
 import { NextResponse } from 'next/server';
 import { SignJWT, jwtVerify } from 'jose';
