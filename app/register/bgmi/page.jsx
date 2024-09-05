@@ -30,9 +30,17 @@ export default function BGMI() {
 
       if (response.ok) {
         let data = await response.json();
-        console.log({ data });
-        setInfoTheme("success");
-        setInfoText("Form Submitted Successfully");
+        let {type} = data;
+        switch(type){
+          case "success":
+            setInfoTheme("success");
+            setInfoText("Form Submitted Successfully");
+            break;
+          case "error":
+            setInfoTheme("error");
+            setInfoText(data.message+" -- Contact US with Error");
+            break;
+        }
       } else {
         console.error("Failed to submit form");
         setInfoTheme("error");

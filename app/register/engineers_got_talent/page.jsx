@@ -67,6 +67,7 @@ export default function EngineersGotTalent() {
         onSubmit={onSubmit}
         className="bg-blur w-[95%] mx-auto md:w-[600px] flex flex-col bg-[rgba(255,255,255,0.1)] px-5  lg:px-10 rounded-3xl"
       >
+        
         <h1 className="text-center text-2xl md:4xl py-10">
           - Engineers' Got Talent -<br />{" "}
           <span className="text-gray-400">Registration Form</span>

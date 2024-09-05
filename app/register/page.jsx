@@ -8,6 +8,7 @@ import Info from "../components/infobox";
 export default function Register() {
   const [infoTheme, setInfoTheme] = useState("suggest");
   const [infoText, setInfoText] = useState(" * fields are required");
+  const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const otherDepFee = 50;
   const [formData, setFormData] = useState({ transition_amount: otherDepFee });
@@ -15,6 +16,7 @@ export default function Register() {
     e.preventDefault();
     setInfoTheme("suggest");
     setInfoText("Uploading Form ...");
+    setSubmitDisabled(true);
 
     console.log({ formData });
     try {
@@ -52,6 +54,8 @@ export default function Register() {
       setInfoText("Error submitting form");
       // Handle the error (e.g., show an error message)
     }
+
+    setSubmitDisabled(false);
   };
 
   const handleInput = (e) => {
@@ -233,7 +237,7 @@ export default function Register() {
 
         {/* SUbmit button */}
         <div className="my-4 flex">
-          <button className="hover:bg-[#223] px-10 py-3 border-gray-700 border bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
+          <button disabled={submitDisabled} className="hover:bg-[#223] px-10 py-3 border-gray-700 border bg-[#00000088] text-white rounded-lg flex-1 md:flex-none  focus:outline-none focus:ring-[3px] focus:ring-blue-600 focus:border-transparent active:scale-90 transition-none ">
             Submit
           </button>
         </div>

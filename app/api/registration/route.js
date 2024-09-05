@@ -42,30 +42,32 @@ export async function POST(req) {
       if (eventCount >= 2) {
         return NextResponse.json({
           type: "error",
-          message: "Already in two events",
+          message: "Already in two events : "+events.join(" and "),
         });
       }
 
-      console.log({events})
+      console.log({ events });
       if (Array.isArray(events) && events.includes(event))
         return Response.json({
           type: "error",
           message: `Already Registered in '${event}'`,
         });
-      
+
       // adding transition id with error checking
-      let t_error = await addTransaction(pool, {
-        transaction_id,
-        rollno,
-        event,
-        amount: transition_amount,
-        verified: department === "UIT",
-      });
-      if(t_error) return ErrorResponse(t_error);
-      
+      if (department !== "UIT") {
+        let t_error = await addTransaction(pool, {
+          transaction_id,
+          rollno,
+          event,
+          amount: transition_amount,
+          verified: department === "UIT",
+        });
+        if (t_error) return ErrorResponse(t_error);
+      }
+
       // adding event to list
       let e_error = await addEvent(pool, rollno, event);
-      if(e_error) return ErrorResponse(e_error);
+      if (e_error) return ErrorResponse(e_error);
       return Response.json({ type: "success", message: "New Event Added" });
     }
 

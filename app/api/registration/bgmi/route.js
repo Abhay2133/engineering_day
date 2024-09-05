@@ -1,6 +1,16 @@
-import { getPool } from "../../../../lib/db";
+import { NextResponse } from "next/server";
+import {
+  addEvent,
+  addTransaction,
+  countEvents,
+  ErrorResponse,
+  getEvents,
+  getPool,
+  hasRecord,
+  insertBGMIRegistration,
+  insertRegistration,
+} from "../../../../lib/db";
 
-// Handler function for different HTTP methods
 export async function POST(req) {
   const pool = await getPool();
   const {
@@ -9,9 +19,9 @@ export async function POST(req) {
     email,
     gender,
     phone,
-    player2="",
-    player3="",
-    player4="",
+    player2 = "",
+    player3 = "",
+    player4 = "",
     rollno,
     semester,
     team_leader,
@@ -20,107 +30,90 @@ export async function POST(req) {
     year,
   } = await req.json();
 
-
   try {
-    const result = await pool.query(
-      `INSERT INTO BGMI_Registrations (
-        TeamName, 
-        TeamLeader, 
-        Player2, 
-        Player3, 
-        Player4, 
-        Year, 
-        Semester, 
-        Gender, 
-        Email, 
-        Phone, 
-        Department, 
-        Payment_Verified, 
-        Transaction_ID, 
-        Transaction_Amount,
-        UniversityRollNo
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *`,
-      [
-        team_name,
-        team_leader,
-        player2,
-        player3,
-        player4,
-        year,
-        semester,
-        gender,
-        email,
-        phone,
-        department,
-        (department === "UIT" ? true : false),
-        transaction_id,
-        200,
-        rollno
-      ]
-    );
-    return new Response(JSON.stringify(result.rows[0]), { status: 201 });
-  } catch (error) {
-    console.error("Error creating record:", error);
-    return new Response(
-      JSON.stringify({
-        code: error.code,
-        details: error.details,
-        message: error.message,
-      }),
-      { status: 409 }
-    );
-  }
-}
+    // Check if the user already has a record in the database
+    const recordExists = await hasRecord(pool, rollno);
+    if (recordExists) {
+      // couting number of events registered in
+      let [ge_error, events] = await getEvents(pool, rollno);
+      if (ge_error)
+        return NextResponse.json({ type: "error", message: ge_error.message });
 
-export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const searchMap = {};
-  for (let [key, value] of searchParams.entries()) {
-    searchMap[key] = value;
-  }
-  const email = searchParams.get("email"); // Optional: fetch specific user by email
+      const eventCount = events.length;
+      if (eventCount >= 2) {
+        return NextResponse.json({
+          type: "error",
+          message: "Already in two events : " + events.join(" and "),
+        });
+      }
 
-  try {
-    let result;
-    if (email) {
-      result = await pool.query(
-        "SELECT * FROM RegistrationForm WHERE EmailAddress = $1",
-        [email || true]
-      );
-    } else {
-      result = await pool.query("SELECT * FROM RegistrationForm");
+      console.log({ events });
+      if (Array.isArray(events) && events.includes("BGMI BADSHAH"))
+        return Response.json({
+          type: "error",
+          message: `Already Registered in 'BGMI BADSHAH'`,
+        });
+
+      // adding transition id with error checking
+      if (department !== "UIT") {
+        let t_error = await addTransaction(pool, {
+          transaction_id,
+          rollno,
+          event: "BGMI BADSHAH",
+          amount: 200,
+          verified: department === "UIT",
+        });
+        if (t_error) return ErrorResponse(t_error);
+      }
+
+      // adding event to selectedEvent
+      let e_error = await addEvent(pool, rollno, "BGMI BADSHAH");
+      if (e_error) return ErrorResponse(e_error);
+      return Response.json({ type: "success", message: "New Event Added" });
     }
 
-    return new Response(JSON.stringify(result.rows), { status: 200 });
-  } catch (error) {
-    console.error("Error fetching records:", error);
-    return new Response(JSON.stringify({ error: "Error fetching records" }), {
-      status: 500,
+    // create new entry
+    let i_error = await insertBGMIRegistration(pool, {
+      rollno,
+      team_leader,
+      player2,
+      player3,
+      player4,
+      team_name,
     });
-  }
-}
+    if (i_error) return ErrorResponse(i_error);
 
-export async function DELETE(req) {
-  const pool = await getPool();
-  const { EmailAddress } = await req.json();
+    let r_error = await insertRegistration(pool, {
+      rollno,
+      email,
 
-  try {
-    const result = await pool.query(
-      "DELETE FROM RegistrationForm WHERE EmailAddress = $1 RETURNING *",
-      [EmailAddress]
-    );
+      firstname: team_leader,
+      lastname: " ",
+      branch,
 
-    if (result.rowCount === 0) {
-      return new Response(JSON.stringify({ error: "Record not found" }), {
-        status: 404,
-      });
-    }
+      department,
+      year,
+      phone,
 
-    return new Response(JSON.stringify(result.rows[0]), { status: 200 });
-  } catch (error) {
-    console.error("Error deleting record:", error);
-    return new Response(JSON.stringify({ error: "Error deleting record" }), {
-      status: 500,
+      event: ["BGMI BADSHAH"],
+      gender,
+      semester,
     });
+    if (r_error) return ErrorResponse(r_error);
+
+    // insert new transaction;
+    let it_error = await addTransaction(pool, {
+      transaction_id,
+      rollno,
+      event:"BGMI BADSHAH",
+      amount: 200,
+      verified: department === "UIT",
+    });
+    if(it_error) return ErrorResponse(it_error);
+
+    return NextResponse.json({ type: "sucess", message: "Entry Added" });
+  } catch (e) {
+    console.error("Error creating record:", e);
+    return NextResponse.json({ type: "error", message: e.message });
   }
 }
