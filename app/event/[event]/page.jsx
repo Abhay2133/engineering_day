@@ -242,8 +242,11 @@ Who will be crowned the ultimate 'Canvas on Face' champion?
       ],
       [
         "Safety",
-        "Participants must ensure that their costumes and props do not pose a safety risk or cause any obstruction",
+        "No hazardous materials/props are allowed on stage.",
       ],
+      [
+        "Participants must ensure that their costumes and props do not obstruct movement or pose a tripping hazard"
+      ]
     ],
     [
       ["Format", "Multiple rounds (MCQs, rapid-fire, final round)"],
