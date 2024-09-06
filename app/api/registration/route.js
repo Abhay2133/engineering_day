@@ -53,7 +53,7 @@ export async function POST(req) {
 
       console.log({ events });
       if (Array.isArray(events) && events.includes(event))
-        return Response.json({
+        return NextResponse.json({
           type: "error",
           message: `Already Registered in '${event}'`,
         });

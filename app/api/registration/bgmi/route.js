@@ -50,7 +50,7 @@ export async function POST(req) {
 
       console.log({ events });
       if (Array.isArray(events) && events.includes("BGMI BADSHAH"))
-        return Response.json({
+        return NextResponse.json({
           type: "error",
           message: `Already Registered in 'BGMI BADSHAH'`,
         });
@@ -117,5 +117,33 @@ export async function POST(req) {
   } catch (e) {
     console.error("Error creating record:", e);
     return NextResponse.json({ type: "error", message: e.message });
+  }
+}
+
+
+export async function GET(req) {
+  const adminCookie = req.cookies.get("admin")?.value;
+  
+  // checking for authorization
+  if (!adminCookie || adminCookie !== (process.env.ADMIN_KEY || "admin-key"))
+    return NextResponse.json(
+      { message: "Unauthorized access" },
+      { status: 401 } // 401 Unauthorized status
+    );
+
+  try {
+    // Query to select all registrations from the table
+    const result = await getRegistrations();
+
+    // Return the result as JSON
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error("Error fetching registrations:", error);
+
+    // Return an error response
+    return NextResponse.json(
+      { message: "Error fetching registrations" },
+      { status: 500 }
+    );
   }
 }

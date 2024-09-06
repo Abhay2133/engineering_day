@@ -1,4 +1,5 @@
-import { ErrorResponse, getPool } from "../../../../lib/db";
+import { NextResponse } from "next/server";
+import { addEvent, addTransaction, ErrorResponse, getEvents, getPool, hasRecord, insertRegistration, SuccessResponse } from "../../../../lib/db";
 
 // Handler function for different HTTP methods
 export async function POST(req) {
@@ -26,7 +27,7 @@ export async function POST(req) {
       // couting number of events registered in
       let [ge_error, events] = await getEvents(pool, rollno);
       if (ge_error)
-        return NextResponse.json({ type: "error", message: ge_error.message });
+        return ErrorResponse(ge_error);
 
       const eventCount = events.length;
       if (eventCount >= 2) {
@@ -38,7 +39,7 @@ export async function POST(req) {
 
       console.log({ events });
       if (Array.isArray(events) && events.includes(event))
-        return Response.json({
+        return NextResponse.json({
           type: "error",
           message: `Already Registered in '${event}'`,
         });
@@ -72,12 +73,12 @@ export async function POST(req) {
       branch,
 
       department,
-      year,
+      year : parseInt(year),
       phone,
 
       event: [event],
       gender,
-      semester,
+      semester:parseInt(semester),
     });
     if (r_error) return ErrorResponse(r_error);
 

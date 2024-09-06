@@ -25,3 +25,7 @@ select * from Transactions;
       ON 
         rf.UniversityRollNo = t.UniversityRollNo;
 
+
+SELECT *
+FROM RegistrationForm
+WHERE 'Engineers'' Got Talent' = ANY(SelectedEvents);
