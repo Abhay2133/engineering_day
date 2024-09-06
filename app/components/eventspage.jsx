@@ -59,16 +59,19 @@ const Eventspage = ({
           <ul className="list-decimal">
             {eventguid.map((item, i) => (
               <li key={i}>
-                {item[0]} : 
-                {Array.isArray(item[1]) ? (
-                  <ul className="list-disc">
-                    {item[1].map((value, i) => (
-                      <li key={i} className="ml-3">{value}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  item[1]
-                )}
+                {item[0]} :
+                {item[1] &&
+                  (Array.isArray(item[1]) ? (
+                    <ul className="list-disc">
+                      {item[1].map((value, i) => (
+                        <li key={i} className="ml-3">
+                          {value}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    item[1]
+                  ))}
               </li>
             ))}
           </ul>

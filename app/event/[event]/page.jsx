@@ -484,7 +484,7 @@ Who will be crowned the ultimate 'Canvas on Face' champion?
       "Dr. Ajay Tiwari",
       "Dr. Narendra Kumar",
     ],
-    ["Dr. Ruby Pant", "Mr. Vinod Balmiki", "Ms. Pooja Verma"],
+    ["Dr. Ruby Pant", "Mr. Vinod Balmiki", "Ms. Pooja Verma", "Ms. Nishima Chaddha", "Mr. Jitendra Kumar Gupta"],
     [
       "Mr. Arpit Goel",
       "Mr. Gopal Krishna",
