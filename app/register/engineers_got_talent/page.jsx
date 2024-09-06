@@ -211,4 +211,4 @@ export default function EngineersGotTalent() {
 }
 
 const departments = ["UIT"];
-const events = ["Dancing", "Singing", "Poetry", "Mimicry", "Rapping"];
+const events = ["Dancing", "Singing", "Poetry", "Mimicry", "Rapping", "Other"];
