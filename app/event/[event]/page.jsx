@@ -217,14 +217,24 @@ Who will be crowned the ultimate 'Canvas on Face' champion?
         "Theme",
         "The event will focus on representing the '90s Indo-Western dress code, blending traditional and modern elements",
       ],
-      ["Team Structure", "Near Lamour Bakehouse"],
+      [
+        "Team Structure",
+        [
+          "One team will only be allowed from each department",
+          " Each department team should consist of 6 members i.e. 3 boys & 3 girls",
+        ],
+      ],
       [
         "Event Day",
         "Each department can field only one team, which must consist of 6 members—3 boys and 3 girls",
       ],
       [
         "Attire",
-        "Participants must bring their own costumes and accessories, ensuring they align with the theme and are appropriate for a general audience. All attire should be tasteful and respectful, avoiding any offensive or inappropriate content. Costumes and props should not obstruct movement or pose a tripping hazard, and no hazardous materials are allowed on stage",
+        [
+          "Participants must bring their own costumes and accessories, ensuring they align with the theme and are appropriate for a general audience",
+          " All attire should be tasteful and respectful, avoiding any offensive or inappropriate content",
+          " Costumes and props should not obstruct movement or pose a tripping hazard, and no hazardous materials are allowed on stage",
+        ],
       ],
       [
         "Time Limit",
@@ -579,22 +589,22 @@ Who will be crowned the ultimate 'Canvas on Face' champion?
     "Ground floor UIT",
   ];
   const title = [
-    ["Face Painting","Canvas on Faces"],
-    ["E-Sports Event","BGMI Badshah"],
-    ["Robo Race","Digital India"],
+    ["Face Painting", "Canvas on Faces"],
+    ["E-Sports Event", "BGMI Badshah"],
+    ["Robo Race", "Digital India"],
     ["Engineer's Got Talent", "Talent Hunt"],
-    ["Website making competition","HTML Combat"],
-    ["Boat Race","Pirates"],
-    ["Painting","UU Picasso"],
-    ["Engineers' Day Fun Run" ,"Engineers’ Stride"],
-    ["Modelling","Fashion Show"],
-    ["Technical Quiz Competition","Head Scratch"],
-    ["Video Creation","Life of an Engineer"],
-    ["Model Presentation","Innovate India"],
-    ["Cosplay","Character Clash"],
-    ["CODING WAR","Crack N Code"],
-    ["Anime creation","Anyday Anime"],
-    ["Cook Without Fire","Cooking Competition"],
+    ["Website making competition", "HTML Combat"],
+    ["Boat Race", "Pirates"],
+    ["Painting", "UU Picasso"],
+    ["Engineers' Day Fun Run", "Engineers’ Stride"],
+    ["Modelling", "Fashion Show"],
+    ["Technical Quiz Competition", "Head Scratch"],
+    ["Video Creation", "Life of an Engineer"],
+    ["Model Presentation", "Innovate India"],
+    ["Cosplay", "Character Clash"],
+    ["CODING WAR", "Crack N Code"],
+    ["Anime creation", "Anyday Anime"],
+    ["Cook Without Fire", "Cooking Competition"],
   ];
 
   return (

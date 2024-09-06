@@ -55,10 +55,23 @@ const Eventspage = ({
           ))}
         </div>
         <div className="p-7 text-2xl font-semibold">Event Guidelines</div>
-        <div className="p-7 pt-1 font-sans text-xl text-justify">
-          {eventguid.map((item, i) => (
-            <ul key={i}>{`${item[0]}    :    ${item[1]}`}</ul>
-          ))}
+        <div className="pt-1 font-sans text-xl text-justify px-10 md:px-16  ">
+          <ul className="list-decimal">
+            {eventguid.map((item, i) => (
+              <li key={i}>
+                {item[0]} : 
+                {Array.isArray(item[1]) ? (
+                  <ul className="list-disc">
+                    {item[1].map((value, i) => (
+                      <li key={i} className="ml-3">{value}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  item[1]
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="md:flex justify-center">
@@ -108,8 +121,9 @@ const Eventspage = ({
 
 export default Eventspage;
 
-function Register({title, registerHref}) {
-  if (title == "Modelling"){// || title == "Engineer's Got Talent") {
+function Register({ title, registerHref }) {
+  if (title == "Modelling") {
+    // || title == "Engineer's Got Talent") {
     return (
       <span className="text-2xl font-semibold">
         Inter-Department Competition
