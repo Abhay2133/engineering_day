@@ -167,8 +167,16 @@ Who will be crowned the ultimate 'Canvas on Face' champion?
       ],
       [
         "Resources",
-        "Participants will be provided with a computer system to implement their work",
+        "The participants will be provided with VS Code as their IDE.",
       ],
+      [
+        "Assets",
+        "Participants are instructed to bring their own images in a pen drive (min 5- max 10) to beautify their website.",
+      ],
+      [
+        "Technical",
+        "HTML and CSS are compulsory to be used whereas use of JavaScript is optional and if a participant uses JS, they will be awarded 5% extra points over the points they receive in the functionality criteria."
+      ]
     ],
     [
       [
@@ -240,13 +248,10 @@ Who will be crowned the ultimate 'Canvas on Face' champion?
         "Time Limit",
         "Each team will have a maximum of 10 minutes to present their walk and poses",
       ],
+      ["Safety", "No hazardous materials/props are allowed on stage."],
       [
-        "Safety",
-        "No hazardous materials/props are allowed on stage.",
+        "Participants must ensure that their costumes and props do not obstruct movement or pose a tripping hazard",
       ],
-      [
-        "Participants must ensure that their costumes and props do not obstruct movement or pose a tripping hazard"
-      ]
     ],
     [
       ["Format", "Multiple rounds (MCQs, rapid-fire, final round)"],
@@ -487,7 +492,13 @@ Who will be crowned the ultimate 'Canvas on Face' champion?
       "Dr. Ajay Tiwari",
       "Dr. Narendra Kumar",
     ],
-    ["Dr. Ruby Pant", "Mr. Vinod Balmiki", "Ms. Pooja Verma", "Ms. Nishima Chaddha", "Mr. Jitendra Kumar Gupta"],
+    [
+      "Dr. Ruby Pant",
+      "Mr. Vinod Balmiki",
+      "Ms. Pooja Verma",
+      "Ms. Nishima Chaddha",
+      "Mr. Jitendra Kumar Gupta",
+    ],
     [
       "Mr. Arpit Goel",
       "Mr. Gopal Krishna",
