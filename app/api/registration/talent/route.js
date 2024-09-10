@@ -3,6 +3,9 @@ import { addEvent, addTransaction, ErrorResponse, getEvents, getPool, hasRecord,
 
 // Handler function for different HTTP methods
 export async function POST(req) {
+
+  return NextResponse.json({type:"error", message:"Registrations are closed !"});
+
   const pool = await getPool();
   const {
     branch,
