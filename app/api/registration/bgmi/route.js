@@ -13,6 +13,7 @@ import {
 } from "../../../../lib/db";
 
 export async function POST(req) {
+  return NextResponse.json({type:"error", message:"Sorry, BGMI Badshah registration are closed !"});
   const pool = await getPool();
   const {
     branch,

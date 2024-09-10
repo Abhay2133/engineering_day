@@ -132,6 +132,12 @@ function Register({ title, registerHref }) {
         Inter-Department Competition
       </span>
     );
+  }else if (title == "E-Sports Event"){
+    return (
+      <span className="text-2xl font-semibold">
+        Registrations Closed
+      </span>
+    );
   } else {
     return (
       <Link href={registerHref}>
